@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/wallpaper_item"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_centerInParent="true"
+    android:layout_margin="@dimen/margin_3"
+    android:clickable="true"
+    android:focusable="true"
+    android:foreground="?android:selectableItemBackground"
+    app:cardBackgroundColor="?attr/colorCardView"
+    app:cardCornerRadius="@dimen/margin_10"
+    app:cardElevation="@dimen/margin_3"
+    app:cardPreventCornerOverlap="false"
+    app:layout_constraintBottom_toBottomOf="parent"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toTopOf="parent">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="380dp"
+        android:layoutDirection="ltr">
+
+        <ImageView
+            android:id="@+id/image"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:contentDescription="@string/app_name"
+            android:scaleType="fitXY"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/progressBar"
+            android:layout_width="@dimen/margin_220"
+            android:layout_height="@dimen/margin_220"
+            android:layout_centerInParent="true"
+            android:layout_gravity="center"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/image"
+            app:layout_constraintStart_toStartOf="@+id/image"
+            app:layout_constraintTop_toTopOf="parent"
+            app:lottie_autoPlay="true"
+            app:lottie_loop="true"
+            app:lottie_rawRes="@raw/loading_data" />
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="horizontal"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
+
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="15dp"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_gravity="center"
+                    app:srcCompat="@drawable/ic_views" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/num_views"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:fontFamily="@font/cairo_semi_bold"
+                    android:gravity="center"
+                    android:textColor="@android:color/white"
+                    tools:text="55" />
+
+            </LinearLayout>
+
+            <com.fangxu.allangleexpandablebutton.AllAngleExpandableButton
+                android:id="@+id/as_background_expandable"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:aebAnimDurationMillis="175"
+                app:aebBlurBackground="false"
+                app:aebButtonElevation="4dp"
+                app:aebButtonGapDp="45dp"
+                app:aebEndAngleDegree="150"
+                app:aebIsSelectionMode="false"
+                app:aebMainButtonRotateAnimDurationMillis="300"
+                app:aebMainButtonRotateDegree="0"
+                app:aebMainButtonSizeDp="45dp"
+                app:aebRippleEffect="true"
+                app:aebStartAngleDegree="30"
+                app:aebSubButtonSizeDp="45dp" />
+
+            <com.fangxu.allangleexpandablebutton.AllAngleExpandableButton
+                android:id="@+id/button_expandable"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:aebAnimDurationMillis="175"
+                app:aebBlurBackground="false"
+                app:aebButtonElevation="4dp"
+                app:aebButtonGapDp="45dp"
+                app:aebEndAngleDegree="150"
+                app:aebIsSelectionMode="false"
+                app:aebMainButtonRotateAnimDurationMillis="300"
+                app:aebMainButtonRotateDegree="0"
+                app:aebMainButtonSizeDp="45dp"
+                app:aebRippleEffect="true"
+                app:aebStartAngleDegree="30"
+                app:aebSubButtonSizeDp="45dp" />
+
+            <com.fangxu.allangleexpandablebutton.AllAngleExpandableButton
+                android:id="@+id/other_share_expandable"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:aebAnimDurationMillis="175"
+                app:aebBlurBackground="false"
+                app:aebButtonElevation="4dp"
+                app:aebButtonGapDp="25dp"
+                app:aebEndAngleDegree="90"
+                app:aebIsSelectionMode="false"
+                app:aebMainButtonRotateAnimDurationMillis="300"
+                app:aebMainButtonRotateDegree="-135"
+                app:aebMainButtonSizeDp="45dp"
+                app:aebRippleEffect="true"
+                app:aebStartAngleDegree="90"
+                app:aebSubButtonSizeDp="45dp" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="15dp"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <com.like.LikeButton
+                    android:id="@+id/likeButton"
+                    android:layout_width="42dp"
+                    android:layout_height="42dp"
+                    android:layout_gravity="center"
+                    app:icon_size="25dp"
+                    app:icon_type="heart"
+                    app:like_drawable="@drawable/ic_like_on"
+                    app:unlike_drawable="@drawable/ic_like_off" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/num_likes"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:fontFamily="@font/cairo_semi_bold"
+                    android:gravity="center"
+                    android:textColor="@android:color/white"
+                    tools:text="55" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.cardview.widget.CardView>
+

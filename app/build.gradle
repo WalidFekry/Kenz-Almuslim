@@ -1,0 +1,92 @@
+apply plugin: 'com.android.application'
+apply plugin: 'com.google.gms.google-services'
+
+android {
+
+    signingConfigs {
+        release {
+            storeFile file('C:\\Users\\Walid\\Desktop\\kenz.jks')
+            storePassword '123456789'
+            keyAlias 'key0'
+            keyPassword '123456789'
+        }
+    }
+    compileSdkVersion 34
+    defaultConfig {
+        applicationId "com.kenz.almuslim"
+        minSdkVersion 21
+        targetSdkVersion 34
+        versionCode 18
+        versionName "1.0.4"
+        multiDexEnabled true
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        renderscriptTargetApi 21
+        renderscriptSupportModeEnabled true
+        signingConfig signingConfigs.release
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    buildFeatures {
+        dataBinding true
+    }
+
+//    buildTypes.each {
+//        it.buildConfigField 'String', 'SERVER_URL', SERVER_URL
+//        it.buildConfigField 'String', 'PURCHASE_CODE', PURCHASE_CODE
+//    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation 'androidx.appcompat:appcompat:1.6.1'
+    implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
+    implementation 'com.google.firebase:firebase-core:21.1.1'
+    implementation 'org.jetbrains:annotations:23.0.0'
+    testImplementation 'junit:junit:4.13.2'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.5'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
+    implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'
+    //noinspection GradleDependency
+    implementation 'com.google.android.material:material:1.2.0-alpha04'
+    implementation 'com.airbnb.android:lottie:5.2.0'
+    implementation 'com.github.abenkdh:BSBottomNavigation:1.0'
+    implementation 'com.github.jd-alexander:LikeButton:0.2.3'
+    implementation 'com.github.bumptech.glide:glide:4.14.1'
+    annotationProcessor 'com.github.bumptech.glide:compiler:4.14.1'
+    //noinspection GradleDependency
+    implementation 'com.github.abenkdh:BSMob:2.3'
+    implementation 'com.google.code.gson:gson:2.10.1'
+    //noinspection GradleDependency
+    implementation 'com.squareup.picasso:picasso:2.71828'
+    implementation 'com.github.uin3566:AllAngleExpandableButton:v1.2.0'
+    implementation 'com.amitshekhar.android:android-networking:1.0.2'
+    implementation 'com.github.yalantis:ucrop:2.2.4'
+    implementation 'jp.wasabeef:recyclerview-animators:3.0.0'
+    implementation 'com.github.thomper:sweet-alert-dialog:v1.4.0'
+    implementation 'com.github.yalantis:ucrop:2.2.4'
+    implementation 'com.sothree.slidinguppanel:library:3.4.0'
+    implementation 'com.github.florent37:shapeofview:1.4.7'
+    implementation 'com.github.chrisbanes:PhotoView:2.1.4'
+    implementation 'com.yarolegovich:sliding-root-nav:1.1.0'
+    implementation 'com.github.abenkdh:BSCarouselViewPager:1.0'
+    implementation 'gun0912.ted:tedpermission:2.2.3'
+    implementation 'com.mindorks.android:prdownloader:0.6.0'
+    implementation platform('com.google.firebase:firebase-bom:33.0.0')
+    implementation 'com.android.support:multidex:1.0.3'
+    implementation project(':HihiHoho')
+    implementation 'io.reactivex.rxjava2:rxandroid:2.1.1'
+    implementation 'io.reactivex.rxjava2:rxjava:2.2.19'
+    implementation 'com.google.firebase:firebase-messaging'
+    implementation 'com.readystatesoftware.sqliteasset:sqliteassethelper:2.0.1'
+    implementation 'com.github.mjn1369:prettydialog:1.0.4'
+}

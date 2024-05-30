@@ -1,0 +1,258 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/detail_background"
+        android:orientation="vertical">
+
+        <View
+            android:id="@+id/view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#50000000" />
+
+        <com.google.android.material.appbar.AppBarLayout
+            android:id="@+id/appBarLayout"
+            android:layout_width="match_parent"
+            android:layout_height="70dp"
+            android:layout_marginTop="22dp"
+            android:background="@android:color/transparent"
+            app:elevation="0dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="10dp">
+
+
+                <LinearLayout
+                    android:id="@+id/linearLayout2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="15dp"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <com.like.LikeButton
+                        android:id="@+id/likeButton"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_gravity="center"
+                        app:icon_size="40dp"
+                        app:icon_type="heart"
+                        app:like_drawable="@drawable/ic_like_on"
+                        app:unlike_drawable="@drawable/ic_like_off" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/num_likes"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center"
+                        android:fontFamily="@font/cairo_semi_bold"
+                        android:gravity="center"
+                        android:textColor="@android:color/white"
+                        tools:text="55" />
+
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:id="@+id/linearLayout"
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:layout_marginEnd="30dp"
+                    android:orientation="vertical"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/linearLayout2"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:layout_width="30dp"
+                        android:layout_height="25dp"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="5dp"
+                        app:srcCompat="@drawable/ic_views" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:layout_marginTop="10dp"
+                        android:id="@+id/num_views"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:fontFamily="@font/cairo_semi_bold"
+                        android:gravity="center|bottom"
+                        android:textColor="@android:color/white"
+                        tools:text="55" />
+
+                </LinearLayout>
+
+
+                <!--                <androidx.appcompat.widget.AppCompatCheckBox-->
+                <!--                    android:id="@+id/change_orientation"-->
+                <!--                    android:layout_width="34dp"-->
+                <!--                    android:layout_height="34dp"-->
+                <!--                    android:layout_gravity="center_vertical"-->
+                <!--                    android:layout_marginEnd="10dp"-->
+                <!--                    android:button="@drawable/scroll_orientation"-->
+                <!--                    android:clickable="true"-->
+                <!--                    android:focusable="true"-->
+                <!--                    app:layout_constraintBottom_toBottomOf="parent"-->
+                <!--                    app:layout_constraintEnd_toEndOf="parent"-->
+                <!--                    app:layout_constraintTop_toTopOf="parent" />-->
+
+                <ImageView
+                    android:id="@+id/image_back"
+                    android:layout_width="@dimen/margin_24"
+                    android:layout_height="@dimen/margin_24"
+                    android:layout_marginStart="@dimen/margin_10"
+                    android:contentDescription="@string/app_name"
+                    android:src="@drawable/ic_detail_back"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+        </com.google.android.material.appbar.AppBarLayout>
+
+
+        <LinearLayout
+            android:id="@+id/view_page_container"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:orientation="vertical"
+            app:layout_constraintBottom_toTopOf="@id/ads_view"
+            app:layout_constraintTop_toBottomOf="@id/appBarLayout">
+
+
+            <uc.benkkstudio.bscarouselviewpager.BSCarouselViewPager
+                android:id="@+id/view_pager"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:transitionName="image"
+                android:visibility="gone"
+                app:layout_constraintBottom_toTopOf="@id/ads_view"
+                app:layout_constraintTop_toBottomOf="@id/appBarLayout" />
+
+            <androidx.viewpager2.widget.ViewPager2
+                android:id="@+id/vertical_view_pager"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:transitionName="image"
+                android:visibility="visible"
+                app:layout_constraintBottom_toTopOf="@id/ads_view"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/appBarLayout" />
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:visibility="visible"
+            app:layout_constraintBottom_toTopOf="@id/ads_view"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
+
+            <com.fangxu.allangleexpandablebutton.AllAngleExpandableButton
+                android:id="@+id/as_background_expandable"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:aebAnimDurationMillis="175"
+                app:aebBlurBackground="false"
+                app:aebButtonElevation="4dp"
+                app:aebButtonGapDp="45dp"
+                app:aebEndAngleDegree="150"
+                app:aebIsSelectionMode="false"
+                app:aebMainButtonRotateAnimDurationMillis="300"
+                app:aebMainButtonRotateDegree="0"
+                app:aebMainButtonSizeDp="45dp"
+                app:aebRippleEffect="true"
+                app:aebStartAngleDegree="30"
+                app:aebSubButtonSizeDp="45dp" />
+
+
+            <com.fangxu.allangleexpandablebutton.AllAngleExpandableButton
+                android:id="@+id/button_expandable"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:aebAnimDurationMillis="175"
+                app:aebBlurBackground="false"
+                app:aebButtonElevation="4dp"
+                app:aebButtonGapDp="45dp"
+                app:aebEndAngleDegree="150"
+                app:aebIsSelectionMode="false"
+                app:aebMainButtonRotateAnimDurationMillis="300"
+                app:aebMainButtonRotateDegree="0"
+                app:aebMainButtonSizeDp="45dp"
+                app:aebRippleEffect="true"
+                app:aebStartAngleDegree="30"
+                app:aebSubButtonSizeDp="45dp" />
+
+            <com.fangxu.allangleexpandablebutton.AllAngleExpandableButton
+                android:id="@+id/other_share_expandable"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:aebAnimDurationMillis="175"
+                app:aebBlurBackground="false"
+                app:aebButtonElevation="4dp"
+                app:aebButtonGapDp="25dp"
+                app:aebEndAngleDegree="90"
+                app:aebIsSelectionMode="false"
+                app:aebMainButtonRotateAnimDurationMillis="300"
+                app:aebMainButtonRotateDegree="-135"
+                app:aebMainButtonSizeDp="45dp"
+                app:aebRippleEffect="true"
+                app:aebStartAngleDegree="90"
+                app:aebSubButtonSizeDp="45dp" />
+
+        </LinearLayout>
+
+        <RelativeLayout
+            android:id="@+id/layout_locked"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="gone"
+            app:layout_constraintBottom_toTopOf="@+id/ads_view"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <Button
+                android:id="@+id/button_subs"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:layout_margin="@dimen/margin_80"
+                android:text="فتح الصور المدفوعة"
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/text_12" />
+        </RelativeLayout>
+
+        <LinearLayout
+            android:id="@+id/ads_view"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/margin_60"
+            android:gravity="center|bottom"
+            android:orientation="horizontal"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

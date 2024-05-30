@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<font-family xmlns:app="http://schemas.android.com/apk/res-auto">
+    <!-- regular -->
+    <font
+        app:font="@font/bstudio_regular"
+        app:fontStyle="normal"
+        app:fontWeight="100"/>
+
+    <!-- italic -->
+    <font
+        app:font="@font/bstudio_italic"
+        app:fontStyle="italic"
+        app:fontWeight="100"/>
+
+    <!-- bold -->
+    <font
+        app:font="@font/bstudio_bold"
+        app:fontStyle="normal"
+        app:fontWeight="100"/>
+
+</font-family>

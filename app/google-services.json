@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "52927443822",
+    "project_id": "kenz-almuslim",
+    "storage_bucket": "kenz-almuslim.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:52927443822:android:bd55d30984171d2f33077f",
+        "android_client_info": {
+          "package_name": "com.kenz.almuslim"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "52927443822-t74iub4tvid6p3sl402b65dl86jg8k0v.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBJJ43dHJCVzy1O7rUJ_5DpzzcdSXylnlQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "52927443822-t74iub4tvid6p3sl402b65dl86jg8k0v.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

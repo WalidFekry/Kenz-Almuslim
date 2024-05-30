@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#F4C51F</color>
+    <color name="colorPrimaryDark">#F4C51F</color>
+    <color name="colorAccent">#F4C51F</color>
+    <color name="colorDivider">#C5CCD3</color>
+    <color name="colorButtonDetail">#9fffffff</color>
+
+    <color name="btn_bg">#6C6C6C</color>
+    <color name="n1">#FED742</color>
+    <color name="n2">#3ABCC9</color>
+    <color name="n3">#FF4419</color>
+    <color name="b1">#5B5868</color>
+    <color name="b2">#6F6E72</color>
+    <color name="gnt_white">#FFFFFF</color>
+    <color name="br">#856c8b</color>
+    <color name="red_bg_light">#FFA500</color>
+
+    <!--DARK THEME-->
+    <color name="colorWhite">#FFF</color>
+    <color name="colorTextPrimary">#FFFFFF</color>
+    <color name="colorTextSecondary">#8E9499</color>
+    <color name="colorBackground">#1E2736</color>
+    <color name="colorBackgroundDark">#070B16</color>
+    <color name="colorIconActive">#FFF</color>
+    <color name="colorIconNonActive">#8E9499</color>
+    <color name="colorCenterButton">#181F2B</color>
+    <color name="colorCenterButtonBackground">#FFFFFF</color>
+    <color name="colorNavigationBackground">#181F2B</color>
+    <color name="colorCardView">#181F2B</color>
+
+    <!--LIGHT THEME-->
+    <color name="colorWhiteLight">#444444</color>
+    <color name="colorTextPrimaryLight">#727579</color>
+    <color name="base_bg">#C8D6E8</color>
+    <color name="splash_bg">#9E600F</color>
+    <color name="colorTextSecondaryLight">#BBC1CA</color>
+    <color name="colorBackgroundLight">#E9F0F6</color>
+    <color name="colorBackgroundDarkLight">#FFFFFF</color>
+    <color name="colorIconActiveLight">#fff</color>
+    <color name="colorIconNonActiveLight">#8E9499</color>
+    <color name="colorCenterButtonLight">#FFFFFF</color>
+    <color name="colorCenterButtonBackgroundLight">#F4C51F</color>
+    <color name="colorNavigationBackgroundLight">#FFFFFF</color>
+    <color name="colorCardViewLight">#FFFFFF</color>
+</resources>

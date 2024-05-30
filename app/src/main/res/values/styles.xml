@@ -1,0 +1,92 @@
+<resources>
+    <!-- Light base activity theme -->
+    <style name="ActivityTheme.Primary.Base.Light" parent="Theme.MaterialComponents.Light.NoActionBar">
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="colorWhite">@color/colorWhiteLight</item>
+        <item name="colorTextPrimary">@color/colorTextPrimaryLight</item>
+        <item name="colorTextSecondary">@color/colorTextSecondaryLight</item>
+        <item name="colorBackground">@color/colorBackgroundLight</item>
+        <item name="colorBackgroundDark">@color/colorBackgroundDarkLight</item>
+        <item name="colorIconActive">@color/colorIconActiveLight</item>
+        <item name="colorIconNonActive">@color/colorIconNonActiveLight</item>
+        <item name="colorCenterButton">@color/colorCenterButtonLight</item>
+        <item name="colorCenterButtonBackground">@color/colorCenterButtonBackgroundLight</item>
+        <item name="colorNavigationBackground">@color/colorNavigationBackgroundLight</item>
+        <item name="colorCardView">@color/colorCardViewLight</item>
+        <item name="android:windowActionBarOverlay">false</item>
+    </style>
+
+    <!-- Dark base activity theme -->
+    <style name="ActivityTheme.Primary.Base.Dark" parent="Theme.MaterialComponents.Light.NoActionBar">
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="colorWhite">@color/colorWhite</item>
+        <item name="colorTextPrimary">@color/colorTextPrimary</item>
+        <item name="colorTextSecondary">@color/colorTextSecondary</item>
+        <item name="colorBackground">@color/colorBackground</item>
+        <item name="colorBackgroundDark">@color/colorBackgroundDark</item>
+        <item name="colorIconActive">@color/colorIconActive</item>
+        <item name="colorIconNonActive">@color/colorIconNonActive</item>
+        <item name="colorCenterButton">@color/colorCenterButton</item>
+        <item name="colorCenterButtonBackground">@color/colorCenterButtonBackground</item>
+        <item name="colorNavigationBackground">@color/colorNavigationBackground</item>
+        <item name="colorCardView">@color/colorCardView</item>
+        <item name="android:windowActionBarOverlay">false</item>
+    </style>
+
+    <style name="BStudioThemeLight" parent="ActivityTheme.Primary.Base.Light">
+        <item name="android:windowBackground">@color/colorBackgroundDarkLight</item>
+    </style>
+
+    <style name="BStudioThemeDark" parent="ActivityTheme.Primary.Base.Dark">
+        <item name="android:windowBackground">@color/colorBackgroundDark</item>
+    </style>
+
+    <style name="font_family">
+        <item name="fontFamily">@font/cairo_regular</item>
+    </style>
+
+    <style name="PrimaryText">
+        <item name="android:textAppearance">@style/font_family</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">?attr/colorTextPrimary</item>
+        <item name="android:textSize">@dimen/text_16</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="SecondaryText">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">?attr/colorTextSecondary</item>
+        <item name="android:textSize">@dimen/text_14</item>
+    </style>
+
+    <style name="SecondaryTextDrawer">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@android:color/black</item>
+        <item name="android:textSize">@dimen/text_14</item>
+    </style>
+
+    <style name="SheetDialog" parent="Theme.Design.Light.BottomSheetDialog">
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:colorBackground">@android:color/transparent</item>
+        <item name="android:backgroundDimEnabled">true</item>
+        <item name="android:backgroundDimAmount">0.3</item>
+        <item name="android:windowFrame">@null</item>
+        <item name="android:windowIsFloating">true</item>
+    </style>
+
+    <style name="FullDialog" parent="Base.Theme.AppCompat.Dialog">
+        <item name="android:windowMinWidthMajor">90%</item>
+        <item name="android:windowMinWidthMinor">90%</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:colorBackgroundCacheHint">@null</item>
+    </style>
+
+</resources>

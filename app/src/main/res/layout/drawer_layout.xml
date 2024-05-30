@@ -1,0 +1,348 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/constraintLayoutView"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="?attr/colorBackground">
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.65" />
+
+    <ImageView
+        android:id="@+id/headerImage"
+        android:layout_width="0dp"
+        android:layout_height="180dp"
+        android:contentDescription="@string/app_name"
+        android:scaleType="fitXY"
+        android:src="@drawable/waves_header"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/headerTitle"
+        style="@style/PrimaryText"
+        android:layout_width="0dp"
+        android:layout_height="29sp"
+        android:layout_marginStart="30dp"
+        android:fontFamily="@font/cairo_regular"
+        android:includeFontPadding="false"
+        android:maxLines="1"
+        android:text="@string/app_name"
+        android:textColor="@color/colorWhite"
+        android:textSize="14sp"
+        app:layout_constraintBottom_toBottomOf="@+id/headerImage"
+        app:layout_constraintEnd_toEndOf="@+id/guideline"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.32" />
+
+    <TextView
+        android:id="@+id/headerEmail"
+        style="@style/SecondaryText"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="30dp"
+        android:fontFamily="@font/cairo_regular"
+        android:includeFontPadding="false"
+        android:maxLines="1"
+        android:text="@string/app_name"
+        android:textColor="@color/colorWhite"
+        android:textSize="11sp"
+        app:layout_constraintEnd_toEndOf="@+id/guideline"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/headerTitle" />
+
+    <ImageView
+        android:id="@+id/imageHome"
+        android:layout_width="26dp"
+        android:layout_height="26dp"
+        android:layout_marginStart="20dp"
+        android:contentDescription="@string/app_name"
+        android:src="@drawable/ic_drawer_home"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/headerImage"
+        app:tint="?attr/colorTextSecondary" />
+
+    <TextView
+        android:id="@+id/menuHome"
+        style="@style/SecondaryTextDrawer"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="30dp"
+        android:fontFamily="@font/cairo_regular"
+        android:gravity="end"
+        android:includeFontPadding="false"
+        android:maxLines="1"
+        android:text="@string/drawer_home"
+        android:textSize="14sp"
+        app:layout_constraintBottom_toBottomOf="@+id/imageHome"
+        app:layout_constraintEnd_toEndOf="@+id/guideline"
+        app:layout_constraintStart_toEndOf="@+id/imageHome"
+        app:layout_constraintTop_toTopOf="@+id/imageHome" />
+
+    <ImageView
+        android:id="@+id/imageLatest"
+        android:layout_width="26dp"
+        android:layout_height="26dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="10dp"
+        android:contentDescription="@string/app_name"
+        android:src="@drawable/ic_drawer_latest"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageHome"
+        app:tint="?attr/colorTextSecondary" />
+
+    <TextView
+        android:id="@+id/menuLatest"
+        style="@style/SecondaryTextDrawer"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="30dp"
+        android:fontFamily="@font/cairo_regular"
+        android:gravity="end"
+        android:includeFontPadding="false"
+        android:maxLines="1"
+        android:text="@string/drawer_latest"
+        android:textSize="14sp"
+        app:layout_constraintBottom_toBottomOf="@+id/imageLatest"
+        app:layout_constraintEnd_toEndOf="@+id/guideline"
+        app:layout_constraintStart_toEndOf="@+id/imageLatest"
+        app:layout_constraintTop_toTopOf="@+id/imageLatest" />
+
+    <ImageView
+        android:id="@+id/imageCategory"
+        android:layout_width="23dp"
+        android:layout_height="26dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="10dp"
+        android:contentDescription="@string/app_name"
+        android:src="@drawable/ic_drawer_category"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageLatest"
+        app:tint="?attr/colorTextSecondary" />
+
+    <TextView
+        android:id="@+id/menuCategory"
+        style="@style/SecondaryTextDrawer"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="30dp"
+        android:fontFamily="@font/cairo_regular"
+        android:gravity="end"
+        android:includeFontPadding="false"
+        android:maxLines="1"
+        android:text="@string/drawer_category"
+        android:textSize="14sp"
+        app:layout_constraintBottom_toBottomOf="@+id/imageCategory"
+        app:layout_constraintEnd_toEndOf="@+id/guideline"
+        app:layout_constraintStart_toEndOf="@+id/imageCategory"
+        app:layout_constraintTop_toTopOf="@+id/imageCategory" />
+
+    <ImageView
+        android:id="@+id/imageFavourite"
+        android:layout_width="26dp"
+        android:layout_height="26dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="10dp"
+        android:contentDescription="@string/app_name"
+        android:src="@drawable/ic_drawer_favourite"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageCategory"
+        app:tint="?attr/colorTextSecondary" />
+
+    <TextView
+        android:id="@+id/menuFavourite"
+        style="@style/SecondaryTextDrawer"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="30dp"
+        android:fontFamily="@font/cairo_regular"
+        android:gravity="end"
+        android:includeFontPadding="false"
+        android:maxLines="1"
+        android:text="@string/drawer_favourite"
+        android:textSize="14sp"
+        app:layout_constraintBottom_toBottomOf="@+id/imageFavourite"
+        app:layout_constraintEnd_toEndOf="@+id/guideline"
+        app:layout_constraintStart_toEndOf="@+id/imageFavourite"
+        app:layout_constraintTop_toTopOf="@+id/imageFavourite" />
+
+    <View
+        android:id="@+id/divider"
+        android:layout_width="match_parent"
+        android:layout_height="0.1dp"
+        android:layout_marginTop="10dp"
+        android:background="@color/colorDivider"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageFavourite" />
+
+    <TextView
+        android:id="@+id/Communicate"
+        style="@style/SecondaryText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:includeFontPadding="false"
+        android:maxLines="1"
+        android:text="Communicate"
+        android:textSize="14sp"
+        android:visibility="gone"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/divider" />
+
+
+    <ImageView
+        android:id="@+id/imageShare"
+        android:layout_width="26dp"
+        android:layout_height="26dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="10dp"
+        android:contentDescription="@string/app_name"
+        android:src="@drawable/ic_drawer_share"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/Communicate"
+        app:tint="?attr/colorTextSecondary" />
+
+    <TextView
+        android:id="@+id/menuShare"
+        style="@style/SecondaryTextDrawer"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="30dp"
+        android:fontFamily="@font/cairo_regular"
+        android:gravity="end"
+        android:includeFontPadding="false"
+        android:maxLines="1"
+        android:text="@string/drawer_share"
+        android:textSize="14sp"
+        app:layout_constraintBottom_toBottomOf="@+id/imageShare"
+        app:layout_constraintEnd_toEndOf="@+id/guideline"
+        app:layout_constraintStart_toEndOf="@+id/imageShare"
+        app:layout_constraintTop_toTopOf="@+id/imageShare" />
+
+    <ImageView
+        android:id="@+id/imageRate"
+        android:layout_width="26dp"
+        android:layout_height="26dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="10dp"
+        android:contentDescription="@string/app_name"
+        android:src="@drawable/ic_drawer_rate"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageShare"
+        app:tint="?attr/colorTextSecondary" />
+
+    <TextView
+        android:id="@+id/menuRate"
+        style="@style/SecondaryTextDrawer"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="30dp"
+        android:fontFamily="@font/cairo_regular"
+        android:gravity="end"
+        android:includeFontPadding="false"
+        android:maxLines="1"
+        android:text="@string/drawer_rate"
+        android:textSize="14sp"
+        app:layout_constraintBottom_toBottomOf="@+id/imageRate"
+        app:layout_constraintEnd_toEndOf="@+id/guideline"
+        app:layout_constraintStart_toEndOf="@+id/imageRate"
+        app:layout_constraintTop_toTopOf="@+id/imageRate" />
+
+    <ImageView
+        android:id="@+id/imageMore"
+        android:layout_width="26dp"
+        android:layout_height="26dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="10dp"
+        android:contentDescription="@string/app_name"
+        android:src="@drawable/ic_drawer_more"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageRate"
+        app:tint="?attr/colorTextSecondary" />
+
+    <TextView
+        android:id="@+id/menuMore"
+        style="@style/SecondaryTextDrawer"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="30dp"
+        android:fontFamily="@font/cairo_regular"
+        android:gravity="end"
+        android:includeFontPadding="false"
+        android:maxLines="1"
+        android:text="@string/drawer_more"
+        android:textSize="14sp"
+        app:layout_constraintBottom_toBottomOf="@+id/imageMore"
+        app:layout_constraintEnd_toEndOf="@+id/guideline"
+        app:layout_constraintStart_toEndOf="@+id/imageMore"
+        app:layout_constraintTop_toTopOf="@+id/imageMore" />
+
+    <View
+        android:id="@+id/divider2"
+        android:layout_width="match_parent"
+        android:layout_height="0.1dp"
+        android:layout_marginTop="10dp"
+        android:background="@color/colorDivider"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageMore" />
+
+    <TextView
+        android:id="@+id/Developer"
+        style="@style/SecondaryText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:includeFontPadding="false"
+        android:maxLines="1"
+        android:text="Developer"
+        android:textSize="14sp"
+        android:visibility="gone"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/divider2" />
+
+
+    <ImageView
+        android:id="@+id/imagePrivacy"
+        android:layout_width="26dp"
+        android:layout_height="26dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="10dp"
+        android:contentDescription="@string/app_name"
+        android:src="@drawable/ic_drawer_privacy"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/Developer"
+        app:tint="?attr/colorTextSecondary" />
+
+    <TextView
+        android:id="@+id/menuPrivacy"
+        style="@style/SecondaryTextDrawer"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="30dp"
+        android:fontFamily="@font/cairo_regular"
+        android:gravity="end"
+        android:includeFontPadding="false"
+        android:maxLines="1"
+        android:text="@string/drawer_privacy"
+        android:textSize="14sp"
+        app:layout_constraintBottom_toBottomOf="@+id/imagePrivacy"
+        app:layout_constraintEnd_toEndOf="@+id/guideline"
+        app:layout_constraintStart_toEndOf="@+id/imagePrivacy"
+        app:layout_constraintTop_toTopOf="@+id/imagePrivacy" />
+
+    <LinearLayout
+        android:id="@+id/adsview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent" />
+</androidx.constraintlayout.widget.ConstraintLayout>

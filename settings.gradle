@@ -1,0 +1,3 @@
+include ':HihiHoho'
+include ':app'
+rootProject.name='KenzAlmuslim'

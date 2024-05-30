@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="CTAppTheme">
+        <attr name="colorWhite" format="color"/>
+        <attr name="colorTextPrimary" format="color"/>
+        <attr name="colorTextSecondary" format="color"/>
+        <attr name="colorBackground" format="color"/>
+        <attr name="colorBackgroundDark" format="color"/>
+        <attr name="colorIconActive" format="color"/>
+        <attr name="colorIconNonActive" format="color"/>
+        <attr name="colorCenterButton" format="color"/>
+        <attr name="colorCenterButtonBackground" format="color"/>
+        <attr name="colorNavigationBackground" format="color"/>
+        <attr name="colorCardView" format="color"/>
+    </declare-styleable>
+</resources>

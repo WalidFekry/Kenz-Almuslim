@@ -1,0 +1,39 @@
+<resources>
+    <string name="app_name">كنز المسلم</string>
+
+    <string name="play_developer_id">https://t.co/US34fsUZeW</string>
+
+    <string name="download_folder">KenzAlmuslim</string>
+
+    <string name="drawer_home">الرئيسية</string>
+    <string name="drawer_latest">أخر الصور الحديثة</string>
+    <string name="drawer_category">أقسام الصور</string>
+    <string name="drawer_favourite">مفضلتي</string>
+    <string name="drawer_share">مhttps://t.co/tWPnhPsVH6اركة</string>
+    <string name="drawer_rate">تقييم التطبيق</string>
+    <string name="drawer_more">تطبيقات أخرى</string>
+    <string name="drawer_privacy">سياسة الخصوصية</string>
+
+    <string name="get_more_wall">مشاركة من تطبيق كنز المسلم، للمزيد حمله من المتجر</string>
+    <string name="please_install_wtsp">المرجو تثبيت تطبيق الوتساب</string>
+    <string name="please_install_messenger">المرجو تحميل تطبيق المسنجر</string>
+    <string name="please_wait">المرجو الإنتظار قليلا…</string>
+
+    <string name="image_set_done">تم تعيين الصورة بنجاح</string>
+    <string name="button_ok">حسنا</string>
+    <string name="search_word">بحث…</string>
+    <string name="popular">الأكثر مشاهدة</string>
+    <string name="last_wallpapers">أخر الصور</string>
+    <string name="premium_category">الصور المميزة</string>
+    <string name="category_free">الصور المجانية</string>
+    <string name="category_gif">صور GIF</string>
+    <string name="category_image_only">الصور فقط</string>
+    <string name="no_image_in_favorite">لا يوجد صور تم حفظها إلى الأن</string>
+    <string name="network_error_try_later">وقع خطأ في الإتصال حاول لاحقا</string>
+    <string name="share_image">مشاركة صورة</string>
+    <string name="latest_word">الأحدث</string>
+    <string name="older_word">الأقدم</string>
+    <string name="please_confirm_permission"> المرجو إعطاء التطبيق الصلاحية التالية لكي تتمكن من حفظ الصور على هاتفك 💡</string>
+    <string name="word_ok">حسنا</string>
+    <string name="aboutapp">تطبيق كنز المسلم هو تطبيق شامل يحتوي على صور وخلفيات إسلامية و ادعيه مستجابة بدون انترنت و رسائل تفاؤل  من أفضل التطبيقات الإسلامية التي ستغير حياتك للأفضل بإذن الله 🌺</string>
+</resources>

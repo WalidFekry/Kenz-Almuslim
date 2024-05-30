@@ -90,12 +90,6 @@ public class DetailPresenter extends BasePresenter<DetailView> {
         progressLoader = new ProgressLoader(activity);
         Constant.ads_count++;
         if (Constant.ads_count == Constant.interstitial_click) {
-            if (Constant.AdsOptions.IDENTIFIER.equals(Constant.AdsOptions.FACEBOOK)) {
-
-            } else {
-
-            }
-
             Constant.ads_count = 0;
         }
         binding.imageBack.setOnClickListener(v -> onBackPressed());
@@ -477,9 +471,6 @@ public class DetailPresenter extends BasePresenter<DetailView> {
             final Uri resultUri = UCrop.getOutput(data);
             try {
                 Bitmap bitmap = MediaStore.Images.Media.getBitmap(activity.getContentResolver(), resultUri);
-                if (Constant.AdsOptions.IDENTIFIER.equals(Constant.AdsOptions.FACEBOOK)) {
-                } else {
-                }
                 showBottomSheetDialog(bitmap);
             } catch (IOException e) {
                 e.printStackTrace();

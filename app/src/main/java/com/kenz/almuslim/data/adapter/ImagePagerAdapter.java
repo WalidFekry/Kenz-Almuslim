@@ -68,19 +68,6 @@ public class ImagePagerAdapter extends BSCarouselViewPagerAdapter {
     public Object instantiateItem(@NonNull ViewGroup container, final int position) {
         View imageLayout = null;
         if (arrayList.get(position).view_type == AdapterWallpaper.VIEW_NATIVE) {
-            if (Constant.AdsOptions.IDENTIFIER.equals(Constant.AdsOptions.FACEBOOK)) {
-
-
-
-
-
-
-                List<View> clickableViews = new ArrayList<>();
-
-
-                imageLayout = inflater.inflate(R.layout.view_pager_native, container, false);
-
-            }
         } else {
             imageLayout = inflater.inflate(R.layout.view_pager_wallpaper, container, false);
             ImageView imageView = imageLayout.findViewById(R.id.image);

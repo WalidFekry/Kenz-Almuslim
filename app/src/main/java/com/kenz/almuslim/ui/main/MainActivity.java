@@ -21,6 +21,7 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.viewpager.widget.ViewPager;
 
 
+import com.google.firebase.FirebaseApp;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.kenz.almuslim.R;
 import com.kenz.almuslim.Settings;
@@ -61,7 +62,6 @@ public class MainActivity extends BaseActivity<MainView, MainPresenter> implemen
         } else {
             setTheme(R.style.BStudioThemeLight);
         }
-
         FirebaseMessaging.getInstance().subscribeToTopic("all");
     }
 

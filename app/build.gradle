@@ -11,13 +11,13 @@ android {
             keyPassword '123456789'
         }
     }
-    compileSdkVersion 34
+    compileSdk 34
     defaultConfig {
         applicationId "com.kenz.almuslim"
         minSdkVersion 21
         targetSdkVersion 34
-        versionCode 18
-        versionName "1.0.4"
+        versionCode 19
+        versionName "1.0.5"
         multiDexEnabled true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         renderscriptTargetApi 21

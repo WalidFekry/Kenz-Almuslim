@@ -5,6 +5,7 @@ import android.os.StrictMode;
 
 import com.benkkstudio.bsjson.utils.BSShared;
 
+import com.google.firebase.FirebaseApp;
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.kenz.almuslim.data.local.LocalDataManager;
 

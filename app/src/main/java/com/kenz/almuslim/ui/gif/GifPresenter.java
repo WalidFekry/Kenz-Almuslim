@@ -111,11 +111,13 @@ public class GifPresenter extends BasePresenter<GifView> {
         });
         if (Helpers.isConnected(activity)) {
             recyclerView.setVisibility(View.VISIBLE);
+            rootView.findViewById(R.id.layout_no_favourite).setVisibility(View.GONE);
             rootView.findViewById(R.id.layout_no_connection).setVisibility(View.GONE);
             loadNow();
         } else {
             recyclerView.setVisibility(View.GONE);
             rootView.findViewById(R.id.layout_no_connection).setVisibility(View.VISIBLE);
+            rootView.findViewById(R.id.layout_no_favourite).setVisibility(View.GONE);
             if (swipeRefreshLayout != null && swipeRefreshLayout.isRefreshing()) {
                 swipeRefreshLayout.setRefreshing(false);
             }
@@ -176,6 +178,13 @@ public class GifPresenter extends BasePresenter<GifView> {
                             pageCount++;
                         } catch (JsonSyntaxException e) {
                             e.printStackTrace();
+                        }
+                        if (arrayList.isEmpty()){
+                            recyclerView.setVisibility(View.GONE);
+                            rootView.findViewById(R.id.layout_no_favourite).setVisibility(View.VISIBLE);
+                        }else {
+                            recyclerView.setVisibility(View.VISIBLE);
+                            rootView.findViewById(R.id.layout_no_favourite).setVisibility(View.GONE);
                         }
                         swipeRefreshLayout.setRefreshing(false);
                         progressLoader.stopLoader();

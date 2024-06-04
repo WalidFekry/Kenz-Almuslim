@@ -298,6 +298,13 @@ public class HomePresenter extends BasePresenter<HomeView> {
                                 if (!isLocalSet) {
                                     storeFirstRange(arrayList);
                                 }
+                                if (arrayList.isEmpty()){
+                                    recyclerView.setVisibility(View.GONE);
+                                    rootView.findViewById(R.id.layout_no_favourite).setVisibility(View.VISIBLE);
+                                }else {
+                                    recyclerView.setVisibility(View.VISIBLE);
+                                    rootView.findViewById(R.id.layout_no_favourite).setVisibility(View.GONE);
+                                }
                             } catch (JsonSyntaxException e) {
                                 e.printStackTrace();
                             }

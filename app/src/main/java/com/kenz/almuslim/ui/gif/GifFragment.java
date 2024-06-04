@@ -16,7 +16,7 @@ public class GifFragment extends BaseFragment<GifView, GifPresenter> {
 
     @Override
     protected int getLayoutId() {
-        return R.layout.fragment_home;
+        return R.layout.fragment_gif;
     }
 
     @Override

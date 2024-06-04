@@ -9,12 +9,12 @@
     <string name="drawer_latest">أخر الصور الحديثة</string>
     <string name="drawer_category">أقسام الصور</string>
     <string name="drawer_favourite">مفضلتي</string>
-    <string name="drawer_share">مhttps://t.co/tWPnhPsVH6اركة</string>
+    <string name="drawer_share">مشاركة التطبيق</string>
     <string name="drawer_rate">تقييم التطبيق</string>
     <string name="drawer_more">تطبيقات أخرى</string>
     <string name="drawer_privacy">سياسة الخصوصية</string>
 
-    <string name="get_more_wall">مشاركة من تطبيق كنز المسلم، للمزيد حمله من المتجر</string>
+    <string name="get_more_wall">مشاركة من تطبيق كنز المسلم، للمزيد حمله من المتجر 👇</string>
     <string name="please_install_wtsp">المرجو تثبيت تطبيق الوتساب</string>
     <string name="please_install_messenger">المرجو تحميل تطبيق المسنجر</string>
     <string name="please_wait">المرجو الإنتظار قليلا…</string>

@@ -23,7 +23,7 @@
                 android:id="@+id/recycler_view"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:visibility="visible" />
+                android:visibility="gone" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/vertical_recycler_view"
@@ -36,14 +36,12 @@
 
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
-
     <include
         android:id="@+id/layout_no_favourite"
         layout="@layout/layout_no_favourite"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:visibility="gone" />
-
+        android:visibility="visible" />
 
     <include
         android:id="@+id/layout_no_connection"

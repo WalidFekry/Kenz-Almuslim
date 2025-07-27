@@ -2,27 +2,17 @@ apply plugin: 'com.android.application'
 apply plugin: 'com.google.gms.google-services'
 
 android {
-
-    signingConfigs {
-        release {
-            storeFile file('C:\\Users\\Walid\\Desktop\\kenz.jks')
-            storePassword '123456789'
-            keyAlias 'key0'
-            keyPassword '123456789'
-        }
-    }
-    compileSdk 34
+    compileSdk 35
     defaultConfig {
         applicationId "com.kenz.almuslim"
-        minSdkVersion 21
-        targetSdkVersion 34
-        versionCode 25
+        minSdkVersion 23
+        targetSdkVersion 35
+        versionCode 26
         versionName "1.0.5"
         multiDexEnabled true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         renderscriptTargetApi 21
         renderscriptSupportModeEnabled true
-        signingConfig signingConfigs.release
     }
     buildTypes {
         release {
@@ -33,28 +23,22 @@ android {
 
     buildFeatures {
         dataBinding true
+        buildConfig = true
     }
-
-//    buildTypes.each {
-//        it.buildConfigField 'String', 'SERVER_URL', SERVER_URL
-//        it.buildConfigField 'String', 'PURCHASE_CODE', PURCHASE_CODE
-//    }
 
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
+    namespace 'com.kenz.almuslim'
 }
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation 'androidx.appcompat:appcompat:1.6.1'
-    implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
+    implementation 'androidx.appcompat:appcompat:1.7.1'
+    implementation 'androidx.constraintlayout:constraintlayout:2.2.1'
     implementation 'com.google.firebase:firebase-core:21.1.1'
     implementation 'org.jetbrains:annotations:23.0.0'
-    testImplementation 'junit:junit:4.13.2'
-    androidTestImplementation 'androidx.test.ext:junit:1.1.5'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
     implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'
     //noinspection GradleDependency
     implementation 'com.google.android.material:material:1.2.0-alpha04'
@@ -69,19 +53,19 @@ dependencies {
     //noinspection GradleDependency
     implementation 'com.squareup.picasso:picasso:2.71828'
     implementation 'com.github.uin3566:AllAngleExpandableButton:v1.2.0'
-    implementation 'com.amitshekhar.android:android-networking:1.0.2'
+    implementation 'com.github.amitshekhariitbhu:Fast-Android-Networking:1.0.4'
     implementation 'com.github.yalantis:ucrop:2.2.4'
-    implementation 'jp.wasabeef:recyclerview-animators:3.0.0'
+    implementation 'com.github.wasabeef:recyclerview-animators:4.0.1'
     implementation 'com.github.thomper:sweet-alert-dialog:v1.4.0'
     implementation 'com.github.yalantis:ucrop:2.2.4'
     implementation 'com.sothree.slidinguppanel:library:3.4.0'
-    implementation 'com.github.florent37:shapeofview:1.4.7'
+    implementation 'com.github.florent37:ShapeOfView:v1.0.7'
     implementation 'com.github.chrisbanes:PhotoView:2.1.4'
-    implementation 'com.yarolegovich:sliding-root-nav:1.1.0'
+    implementation 'com.github.yarolegovich:SlidingRootNav:v1.1.1'
     implementation 'com.github.abenkdh:BSCarouselViewPager:1.0'
-    implementation 'gun0912.ted:tedpermission:2.2.3'
-    implementation 'com.mindorks.android:prdownloader:0.6.0'
-    implementation platform('com.google.firebase:firebase-bom:33.0.0')
+    implementation 'io.github.ParkSangGwon:tedpermission-normal:3.4.2'
+    implementation 'com.github.amitshekhariitbhu:PRDownloader:1.0.2'
+    implementation platform('com.google.firebase:firebase-bom:34.0.0')
     implementation 'com.android.support:multidex:1.0.3'
     implementation project(':HihiHoho')
     implementation 'io.reactivex.rxjava2:rxandroid:2.1.1'
@@ -89,5 +73,5 @@ dependencies {
     implementation 'com.google.firebase:firebase-messaging'
     implementation 'com.readystatesoftware.sqliteasset:sqliteassethelper:2.0.1'
     implementation 'com.github.mjn1369:prettydialog:1.0.4'
-    implementation 'com.google.android.gms:play-services-ads:23.1.0'
+    implementation 'com.google.android.gms:play-services-ads:24.5.0'
 }

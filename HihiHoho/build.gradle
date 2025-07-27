@@ -1,11 +1,11 @@
 apply plugin: 'com.android.library'
 
 android {
-    compileSdk 34
+    compileSdk 35
 
     defaultConfig {
         minSdkVersion 15
-        targetSdkVersion 34
+        targetSdkVersion 35
     }
 
     buildTypes {
@@ -14,12 +14,13 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+    namespace 'com.benkkstudio.bsjson'
 
 }
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation 'com.google.code.gson:gson:2.10.1'
     implementation 'com.loopj.android:android-async-http:1.4.10'
-    implementation 'com.amitshekhar.android:android-networking:1.0.2'
-    implementation 'com.amitshekhar.android:jackson-android-networking:1.0.2'
+    implementation 'com.github.amitshekhariitbhu:Fast-Android-Networking:1.0.4'
+    implementation 'com.github.amitshekhariitbhu.Fast-Android-Networking:jackson-android-networking:1.0.4'
 }

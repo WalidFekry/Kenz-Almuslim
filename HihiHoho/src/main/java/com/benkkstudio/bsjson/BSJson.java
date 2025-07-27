@@ -16,10 +16,10 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
-import androidx.annotation.NonNull;
 
 import java.util.concurrent.TimeUnit;
 
+import io.reactivex.annotations.NonNull;
 import okhttp3.OkHttpClient;
 
 public class BSJson {

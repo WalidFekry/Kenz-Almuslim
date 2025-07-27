@@ -5,7 +5,8 @@ import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.util.Log;
 
-import androidx.annotation.NonNull;
+import io.reactivex.annotations.NonNull;
+
 
 public class BSShared {
     private static BSShared sSharedPref;

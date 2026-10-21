@@ -2,13 +2,13 @@ apply plugin: 'com.android.application'
 apply plugin: 'com.google.gms.google-services'
 
 android {
-    compileSdk 35
+    compileSdk 37
     defaultConfig {
         applicationId "com.kenz.almuslim"
         minSdkVersion 23
-        targetSdkVersion 35
+        targetSdkVersion 37
         versionCode 26
-        versionName "1.0.5"
+        versionName "2.0.0"
         multiDexEnabled true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         renderscriptTargetApi 21
@@ -31,6 +31,10 @@ android {
         targetCompatibility JavaVersion.VERSION_1_8
     }
     namespace 'com.kenz.almuslim'
+}
+
+configurations.configureEach {
+    exclude group: 'com.google.android.ads.consent', module: 'consent-library'
 }
 
 dependencies {

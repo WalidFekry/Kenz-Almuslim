@@ -93,52 +93,10 @@ public class SplashActivity extends AppCompatActivity {
     }
 
     private void loadAppSettings() {
-        if (!CommonUtils.isNetworkConnected(this)) {
             launchMainActivity();
-            return;
-        }
-
-        BSObject request = new BSObject();
-        request.addProperty("method_name", "settings");
-
-        new BSJson.Builder(this)
-                .setServer(Constant.SERVER_URL)
-                .setObject(request.getProperty())
-                .setMethod(BSJson.METHOD_POST)
-                .setListener(new BSJsonV2Listener() {
-                    @Override
-                    public void onLoaded(String response) {
-                        parseSettingsResponse(response);
-                    }
-
-                    @Override
-                    public void onError(String error) {
-                        Toast.makeText(SplashActivity.this, R.string.network_error_try_later, Toast.LENGTH_SHORT).show();
-                    }
-                }).load();
     }
 
-    private void parseSettingsResponse(String response) {
-        try {
-            JsonObject root = JsonParser.parseString(response).getAsJsonObject();
-            JsonArray data = root.getAsJsonArray(Constant.TAG_ROOT);
-            JsonObject settings = data.get(0).getAsJsonObject();
 
-            String appVersion = settings.get("application_id").getAsString();
-            if (!appVersion.equals(BuildConfig.VERSION_NAME)) {
-                String updateUrl = settings.get("update_url").getAsString();
-                String updateMessage = settings.get("update_message").getAsString();
-                showUpdateDialog(updateUrl, updateMessage);
-            } else {
-                Constant.privacy_police = settings.get("privacy_police").getAsString();
-                launchMainActivity();
-            }
-
-        } catch (JsonSyntaxException | IllegalStateException e) {
-            Log.e("SplashActivity", "Error parsing settings", e);
-            Toast.makeText(this, R.string.network_error_try_later, Toast.LENGTH_SHORT).show();
-        }
-    }
 
     private void showUpdateDialog(String updateUrl, String updateMessage) {
         Dialog dialog = new Dialog(this, R.style.FullDialog);

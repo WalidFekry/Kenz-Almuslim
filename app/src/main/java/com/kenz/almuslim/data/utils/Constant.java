@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import com.kenz.almuslim.data.model.ModelWallpaper;
 
 public class Constant implements Serializable {
-    public static final String SERVER_URL = "https://post.walid-fekry.com/bs_cp/api";
+    public static final String SERVER_URL = "https://post.walid-fekry.com/kenz-almuslim/api.php";
     public static final String TAG_ROOT = "BENKKSTUDIO";
     public static final int WALLPAPER_LOADING_POSITION = 30;
     public static final int CATEGORY_LOADING_POSITION = 10;

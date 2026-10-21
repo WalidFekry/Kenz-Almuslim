@@ -59,7 +59,7 @@ dependencies {
     implementation 'com.github.thomper:sweet-alert-dialog:v1.4.0'
     implementation 'com.github.yalantis:ucrop:2.2.4'
     implementation 'com.sothree.slidinguppanel:library:3.4.0'
-    implementation 'com.github.florent37:ShapeOfView:v1.0.7'
+    implementation 'io.github.florent37:shapeofview:1.4.7'
     implementation 'com.github.chrisbanes:PhotoView:2.1.4'
     implementation 'com.github.yarolegovich:SlidingRootNav:v1.1.1'
     implementation 'com.github.abenkdh:BSCarouselViewPager:1.0'

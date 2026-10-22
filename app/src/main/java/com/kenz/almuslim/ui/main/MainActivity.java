@@ -12,22 +12,14 @@ import android.view.Gravity;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
-import androidx.annotation.NonNull;
-import androidx.appcompat.widget.AppCompatCheckBox;
 import androidx.core.content.ContextCompat;
-import androidx.core.view.GravityCompat;
 import androidx.databinding.DataBindingUtil;
-import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.viewpager.widget.ViewPager;
 
 
-import com.google.firebase.FirebaseApp;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.kenz.almuslim.R;
-import com.kenz.almuslim.Settings;
 import com.kenz.almuslim.data.adapter.ViewPagerAdapter;
 import com.kenz.almuslim.data.base.BaseActivity;
-import com.kenz.almuslim.data.utils.Constant;
 import com.kenz.almuslim.data.utils.SharedPref;
 import com.kenz.almuslim.databinding.ActivityMainBinding;
 import com.kenz.almuslim.ui.home.HomeFragment;
@@ -67,9 +59,6 @@ public class MainActivity extends BaseActivity<MainView, MainPresenter> implemen
 
     @Override
     protected void onStarting() {
-        if (!Settings.premium_unlocked_premanent) {
-            SharedPref.getSharedPref(this).write("premium_checker", "");
-        }
         binding = DataBindingUtil.setContentView(this, getLayoutId());
         presenter.initView(this, binding, getSupportFragmentManager());
         initViewPager();
@@ -123,21 +112,6 @@ public class MainActivity extends BaseActivity<MainView, MainPresenter> implemen
         binding.viewPager.setAdapter(viewPagerAdapter);
         binding.viewPager.setCurrentItem(2);
         binding.viewPager.setOffscreenPageLimit(viewPagerAdapter.getCount());
-//        binding.viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-//            @Override
-//            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-//
-//            }
-//
-//            @Override
-//            public void onPageSelected(int position) {
-//            }
-//
-//            @Override
-//            public void onPageScrollStateChanged(int state) {
-//
-//            }
-//        });
     }
 
     @Override
@@ -219,23 +193,12 @@ public class MainActivity extends BaseActivity<MainView, MainPresenter> implemen
                         }
                 )
                 .show();
-
-//        DrawerLayout drawer = findViewById(R.id.drawer_layout);
-//        if (drawer.isDrawerOpen(GravityCompat.START)) {
-//            drawer.closeDrawer(GravityCompat.START);
-//        }
     }
 
     public void exitCollapsed() {
         presenter.exitCollapsed();
     }
 
-//    @Override
-//    public void onOrientationClickChanged(AppCompatCheckBox appCompatCheckBox, boolean isChecked) {
-//        if (viewPagerAdapter.fragmentReferences.get(2).get() instanceof HomeFragment) {
-//            ((HomeFragment) viewPagerAdapter.fragmentReferences.get(2).get()).onCheckedChanged(appCompatCheckBox, isChecked);
-//        }
-//    }
 
 
     public void onChangeCheckBox(boolean isChecked) {

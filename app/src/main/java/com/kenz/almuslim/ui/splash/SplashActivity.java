@@ -17,7 +17,6 @@ import com.gun0912.tedpermission.normal.TedPermission;
 import com.kenz.almuslim.R;
 import com.kenz.almuslim.ui.main.MainActivity;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class SplashActivity extends AppCompatActivity {
@@ -49,19 +48,17 @@ public class SplashActivity extends AppCompatActivity {
     }
 
     private String[] getRequiredPermissions() {
-        List<String> permissions = new ArrayList<>();
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            // Android 13+ (API 33+)
-            permissions.add(Manifest.permission.READ_MEDIA_IMAGES);
-        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-            // Android 10 - 12 (API 29 - 32)
-            permissions.add(Manifest.permission.READ_EXTERNAL_STORAGE);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            // Android 10+ (API 29+, including Android 13, 14, 15+)
+            // Scoped storage handles file operations without needing runtime permissions on startup
+            return new String[0];
         } else {
             // Android 6 - 9 (API 23 - 28)
-            permissions.add(Manifest.permission.READ_EXTERNAL_STORAGE);
-            permissions.add(Manifest.permission.WRITE_EXTERNAL_STORAGE);
+            return new String[]{
+                    Manifest.permission.READ_EXTERNAL_STORAGE,
+                    Manifest.permission.WRITE_EXTERNAL_STORAGE
+            };
         }
-        return permissions.toArray(new String[0]);
     }
 
     private boolean hasStoragePermissions() {

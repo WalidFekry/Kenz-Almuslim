@@ -184,76 +184,52 @@ public class MainPresenter extends BasePresenter<MainView> {
             }
         });
 
-        slidingRootNav.getLayout().findViewById(R.id.menuHome).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                slidingRootNav.closeMenu(true);
-                binding.viewPager.setCurrentItem(2);
-            }
+        slidingRootNav.getLayout().findViewById(R.id.menuHome).setOnClickListener(view -> {
+            slidingRootNav.closeMenu(true);
+            binding.viewPager.setCurrentItem(2);
         });
 
-        slidingRootNav.getLayout().findViewById(R.id.menuLatest).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                slidingRootNav.closeMenu(true);
-                binding.viewPager.setCurrentItem(2);
-            }
+        slidingRootNav.getLayout().findViewById(R.id.menuLatest).setOnClickListener(view -> {
+            slidingRootNav.closeMenu(true);
+            binding.viewPager.setCurrentItem(2);
         });
 
-        slidingRootNav.getLayout().findViewById(R.id.menuCategory).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                slidingRootNav.closeMenu(true);
-                binding.viewPager.setCurrentItem(0);
-            }
+        slidingRootNav.getLayout().findViewById(R.id.menuCategory).setOnClickListener(view -> {
+            slidingRootNav.closeMenu(true);
+            binding.viewPager.setCurrentItem(0);
         });
 
-        slidingRootNav.getLayout().findViewById(R.id.menuFavourite).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                slidingRootNav.closeMenu(true);
-                binding.viewPager.setCurrentItem(4);
-            }
+        slidingRootNav.getLayout().findViewById(R.id.menuFavourite).setOnClickListener(view -> {
+            slidingRootNav.closeMenu(true);
+            binding.viewPager.setCurrentItem(4);
         });
 
-        slidingRootNav.getLayout().findViewById(R.id.menuShare).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                slidingRootNav.closeMenu(true);
-                Intent sendIntent = new Intent();
-                sendIntent.setAction(Intent.ACTION_SEND);
-                sendIntent.putExtra(Intent.EXTRA_TEXT, activity.getString(R.string.get_more_wall) + "\n" + "https://play.google.com/store/apps/details?id=com.kenz.almuslim?" + activity.getPackageName());
-                sendIntent.setType("text/plain");
-                activity.startActivity(sendIntent);
-            }
+        slidingRootNav.getLayout().findViewById(R.id.menuShare).setOnClickListener(view -> {
+            slidingRootNav.closeMenu(true);
+            Intent sendIntent = new Intent();
+            sendIntent.setAction(Intent.ACTION_SEND);
+            sendIntent.putExtra(Intent.EXTRA_TEXT, activity.getString(R.string.get_more_wall) + "\n" + "https://play.google.com/store/apps/details?id=com.kenz.almuslim");
+            sendIntent.setType("text/plain");
+            activity.startActivity(sendIntent);
         });
 
-        slidingRootNav.getLayout().findViewById(R.id.menuRate).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                slidingRootNav.closeMenu(true);
-                Uri uri = Uri.parse("https://play.google.com/store/apps/details?id=com.kenz.almuslim?" + activity.getPackageName());
-                Intent intent = new Intent(Intent.ACTION_VIEW, uri);
-                activity.startActivity(intent);
-            }
+        slidingRootNav.getLayout().findViewById(R.id.menuRate).setOnClickListener(view -> {
+            slidingRootNav.closeMenu(true);
+            Uri uri = Uri.parse("https://play.google.com/store/apps/details?id=com.kenz.almuslim");
+            Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+            activity.startActivity(intent);
         });
 
-        slidingRootNav.getLayout().findViewById(R.id.menuMore).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                slidingRootNav.closeMenu(true);
-                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(activity.getString(R.string.play_developer_id)));
-                activity.startActivity(intent);
-            }
+        slidingRootNav.getLayout().findViewById(R.id.menuMore).setOnClickListener(view -> {
+            slidingRootNav.closeMenu(true);
+            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(activity.getString(R.string.play_developer_id)));
+            activity.startActivity(intent);
         });
 
-        slidingRootNav.getLayout().findViewById(R.id.menuPrivacy).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                slidingRootNav.closeMenu(true);
-                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://sites.google.com/view/kenz-almuslim"));
-                activity.startActivity(intent);
-            }
+        slidingRootNav.getLayout().findViewById(R.id.menuPrivacy).setOnClickListener(view -> {
+            slidingRootNav.closeMenu(true);
+            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://sites.google.com/view/kenz-almuslim"));
+            activity.startActivity(intent);
         });
     }
 

@@ -5,7 +5,7 @@ android {
     compileSdk 37
     defaultConfig {
         applicationId "com.kenz.almuslim"
-        minSdkVersion 23
+        minSdkVersion 24
         targetSdkVersion 37
         versionCode 26
         versionName "2.0.0"
@@ -39,21 +39,21 @@ configurations.configureEach {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation 'androidx.appcompat:appcompat:1.7.1'
-    implementation 'androidx.constraintlayout:constraintlayout:2.2.1'
+    implementation 'androidx.appcompat:appcompat:1.8.0'
+    implementation 'androidx.constraintlayout:constraintlayout:2.2.2'
     implementation 'com.google.firebase:firebase-core:21.1.1'
-    implementation 'org.jetbrains:annotations:23.0.0'
+    implementation 'org.jetbrains:annotations:26.1.0'
     implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'
     //noinspection GradleDependency
     implementation 'com.google.android.material:material:1.2.0-alpha04'
-    implementation 'com.airbnb.android:lottie:5.2.0'
+    implementation 'com.airbnb.android:lottie:6.7.1'
     implementation 'com.github.abenkdh:BSBottomNavigation:1.0'
     implementation 'com.github.jd-alexander:LikeButton:0.2.3'
-    implementation 'com.github.bumptech.glide:glide:4.14.1'
-    annotationProcessor 'com.github.bumptech.glide:compiler:4.14.1'
+    implementation 'com.github.bumptech.glide:glide:5.0.9'
+    annotationProcessor 'com.github.bumptech.glide:compiler:5.0.9'
     //noinspection GradleDependency
     implementation 'com.github.abenkdh:BSMob:2.3'
-    implementation 'com.google.code.gson:gson:2.10.1'
+    implementation 'com.google.code.gson:gson:2.14.0'
     //noinspection GradleDependency
     implementation 'com.squareup.picasso:picasso:2.71828'
     implementation 'com.github.uin3566:AllAngleExpandableButton:v1.2.0'
@@ -69,13 +69,13 @@ dependencies {
     implementation 'com.github.abenkdh:BSCarouselViewPager:1.0'
     implementation 'io.github.ParkSangGwon:tedpermission-normal:3.4.2'
     implementation 'com.github.amitshekhariitbhu:PRDownloader:1.0.2'
-    implementation platform('com.google.firebase:firebase-bom:34.0.0')
+    implementation platform('com.google.firebase:firebase-bom:35.1.0')
     implementation 'com.android.support:multidex:1.0.3'
+    implementation 'androidx.core:core-splashscreen:1.2.0'
     implementation project(':HihiHoho')
     implementation 'io.reactivex.rxjava2:rxandroid:2.1.1'
-    implementation 'io.reactivex.rxjava2:rxjava:2.2.19'
+    implementation 'io.reactivex.rxjava2:rxjava:2.2.21'
     implementation 'com.google.firebase:firebase-messaging'
     implementation 'com.readystatesoftware.sqliteasset:sqliteassethelper:2.0.1'
     implementation 'com.github.mjn1369:prettydialog:1.0.4'
-    implementation 'com.google.android.gms:play-services-ads:24.5.0'
 }

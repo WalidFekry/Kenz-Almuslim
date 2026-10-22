@@ -153,14 +153,16 @@ public class DetailPresenter extends BasePresenter<DetailView> {
                 switch (index) {
                     case 1:
                         Intent intent = new Intent(activity, ZoomActivity.class);
-                        intent.putExtra("str_image", Constant.arrayListDetail.get(currentPosition).wallpaper_image_original);
+                        intent.putExtra("str_image", Constant.arrayListDetail.get(getCurrentPosition()).wallpaper_image_original);
                         activity.startActivity(intent);
                         break;
                     case 2:
                         wallpaperTask(METHOD_DOWNLOAD);
                         break;
                     case 3:
-                        wallpaperTask(Constant.arrayListDetail.get(binding.viewPager.getCurrentItem()).wallpaper_type.equals("gif") ? METHOD_SET_WALLPAPER_GIF : METHOD_SET_WALLPAPER);
+                        int pos = getCurrentPosition();
+                        String wallType = (pos >= 0 && pos < Constant.arrayListDetail.size()) ? Constant.arrayListDetail.get(pos).wallpaper_type : "";
+                        wallpaperTask("gif".equals(wallType) ? METHOD_SET_WALLPAPER_GIF : METHOD_SET_WALLPAPER);
                         break;
                     case 4:
                         wallpaperTask(METHOD_SHARE);
@@ -407,7 +409,9 @@ public class DetailPresenter extends BasePresenter<DetailView> {
 
 
     private int getCurrentPosition() {
-        if (binding != null && binding.viewPager != null) {
+        if (binding != null && binding.verticalViewPager != null && binding.verticalViewPager.getVisibility() == View.VISIBLE) {
+            return binding.verticalViewPager.getCurrentItem();
+        } else if (binding != null && binding.viewPager != null && binding.viewPager.getVisibility() == View.VISIBLE) {
             return binding.viewPager.getCurrentItem();
         }
         return currentPosition;

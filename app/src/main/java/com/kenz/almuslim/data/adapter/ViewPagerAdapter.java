@@ -3,7 +3,6 @@ package com.kenz.almuslim.data.adapter;
 import android.view.ViewGroup;
 
 import com.kenz.almuslim.ui.category.CategoriesFragment;
-import com.kenz.almuslim.ui.gif.GifFragment;
 import com.kenz.almuslim.ui.home.HomeFragment;
 import com.kenz.almuslim.ui.search.SearchFragment;
 
@@ -48,7 +47,7 @@ public class ViewPagerAdapter extends FragmentPagerAdapter {
                 break;
 
             case 3:
-                fragment = new GifFragment();
+                fragment = new HomeFragment();
                 break;
 
             case 4:

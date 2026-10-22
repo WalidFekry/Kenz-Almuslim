@@ -97,28 +97,6 @@ public class SplashActivity extends AppCompatActivity {
     }
 
 
-
-    private void showUpdateDialog(String updateUrl, String updateMessage) {
-        Dialog dialog = new Dialog(this, R.style.FullDialog);
-        View view = getLayoutInflater().inflate(R.layout.dialog_update, null);
-        dialog.setContentView(view);
-
-        Window window = dialog.getWindow();
-        if (window != null) {
-            window.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
-            window.setGravity(Gravity.CENTER);
-        }
-
-        TextView messageView = view.findViewById(R.id.update_message);
-        messageView.setText(updateMessage);
-
-        view.findViewById(R.id.allow_button).setOnClickListener(v -> {
-            startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(updateUrl)));
-        });
-
-        dialog.show();
-    }
-
     private void launchMainActivity() {
         startActivity(new Intent(this, MainActivity.class));
         finish();

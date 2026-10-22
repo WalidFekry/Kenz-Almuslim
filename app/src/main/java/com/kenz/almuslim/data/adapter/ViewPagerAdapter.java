@@ -4,6 +4,7 @@ import android.view.ViewGroup;
 
 import com.kenz.almuslim.ui.category.CategoriesFragment;
 import com.kenz.almuslim.ui.home.HomeFragment;
+import com.kenz.almuslim.ui.quotes.QuotesFragment;
 import com.kenz.almuslim.ui.search.SearchFragment;
 
 import androidx.annotation.NonNull;
@@ -47,7 +48,7 @@ public class ViewPagerAdapter extends FragmentPagerAdapter {
                 break;
 
             case 3:
-                fragment = new HomeFragment();
+                fragment = new QuotesFragment();
                 break;
 
             case 4:
@@ -62,15 +63,6 @@ public class ViewPagerAdapter extends FragmentPagerAdapter {
 
     @Override
     public @NotNull Object instantiateItem(@NotNull ViewGroup container, int position) {
-        //        // save the appropriate reference depending on position
-//        switch (position) {
-//            case 0:
-//                m1stFragment = (CategoriesFragment) createdFragment;
-//                break;
-//            case 1:
-//                m2ndFragment = (SearchFragment) createdFragment;
-//                break;
-//        }
         return (Fragment) super.instantiateItem(container, position);
     }
 

@@ -20,6 +20,7 @@
     <queries>
         <package android:name="com.whatsapp" />
         <package android:name="com.whatsapp.w4b" />
+        <package android:name="com.facebook.orca" />
     </queries>
 
     <application
@@ -42,6 +43,7 @@
         <activity android:name="com.kenz.almuslim.ui.zoom.ZoomActivity" />
         <activity android:name="com.kenz.almuslim.ui.detail.DetailActivity" />
         <activity android:name="com.kenz.almuslim.ui.bycategory.ByCategoryActivity" />
+        <activity android:name="com.kenz.almuslim.ui.quotes.saved.SavedQuotesActivity" />
         <activity
             android:name="com.kenz.almuslim.ui.splash.SplashActivity"
             android:exported="true">
@@ -59,7 +61,6 @@
         <activity android:name="com.kenz.almuslim.ui.main.MainActivity" />
         <activity
             android:name="com.yalantis.ucrop.UCropActivity"
-            android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
 
 

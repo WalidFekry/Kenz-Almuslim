@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/card_export_root"
+    android:layout_width="1080px"
+    android:layout_height="wrap_content"
+    android:background="@drawable/bg_quote_card_export"
+    android:orientation="vertical"
+    android:padding="50px">
+
+    <!-- Header App Branding -->
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="40px">
+
+        <TextView
+            android:id="@+id/tv_export_badge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_centerVertical="true"
+            android:background="@drawable/bg_quote_action_button"
+            android:fontFamily="@font/cairo_regular"
+            android:paddingStart="24px"
+            android:paddingTop="10px"
+            android:paddingEnd="24px"
+            android:paddingBottom="10px"
+            android:text="رسالة #4"
+            android:textColor="#F4C51F"
+            android:textSize="32px"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:fontFamily="@font/cairo_regular"
+            android:text="تطبيق كنز المسلم 🕌"
+            android:textColor="#F4C51F"
+            android:textSize="36px"
+            android:textStyle="bold" />
+    </RelativeLayout>
+
+    <!-- Decorative Top Divider -->
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2px"
+        android:layout_marginBottom="50px"
+        android:background="#40F4C51F" />
+
+    <!-- Main Quote Body -->
+    <TextView
+        android:id="@+id/tv_export_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20px"
+        android:layout_marginBottom="60px"
+        android:fontFamily="@font/cairo_regular"
+        android:gravity="center"
+        android:lineSpacingExtra="16px"
+        android:paddingStart="30px"
+        android:paddingEnd="30px"
+        android:textDirection="rtl"
+        android:textColor="#FFFFFF"
+        android:textSize="50px"
+        android:textStyle="bold"
+        tools:text="بدل ان تلعن الظلام، أوقد شمعة." />
+
+    <!-- Bottom Footer -->
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20px">
+
+        <TextView
+            android:id="@+id/tv_export_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_centerVertical="true"
+            android:fontFamily="@font/cairo_regular"
+            android:textColor="#8E9499"
+            android:textSize="28px"
+            tools:text="2020-10-18 15:22:54" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:fontFamily="@font/cairo_regular"
+            android:text="حمل التطبيق من Google Play 📲"
+            android:textColor="#BBC1CA"
+            android:textSize="28px" />
+    </RelativeLayout>
+
+</LinearLayout>

@@ -7,7 +7,7 @@ android {
         applicationId "com.kenz.almuslim"
         minSdkVersion 24
         targetSdkVersion 37
-        versionCode 27
+        versionCode 28
         versionName "2.0.0"
         multiDexEnabled true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
@@ -78,4 +78,5 @@ dependencies {
     implementation 'com.google.firebase:firebase-messaging'
     implementation 'com.readystatesoftware.sqliteasset:sqliteassethelper:2.0.1'
     implementation 'com.github.mjn1369:prettydialog:1.0.4'
+    implementation 'com.google.android.gms:play-services-ads:25.5.0'
 }

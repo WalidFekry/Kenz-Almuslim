@@ -91,31 +91,34 @@ public class AdapterCategories extends RecyclerView.Adapter<RecyclerView.ViewHol
         final ModelCategories modelCategories = arrayList.get(position);
         if (getItemViewType(position) == VIEW_ITEM) {
             final OriginalViewHolder holder = (OriginalViewHolder) holderPrent;
-            Picasso.get()
-                    .load(modelCategories.category_image_thumb)
-                    .placeholder(R.drawable.placeholder)
-                    .into(holder.image, new Callback() {
-                        @Override
-                        public void onSuccess() {
-                            holder.progressBar.setVisibility(View.GONE);
-                            holder.title.setVisibility(View.VISIBLE);
-                        }
-
-                        @Override
-                        public void onError(Exception e) {
-
-                        }
-                    });
-
             holder.title.setText(String.format("%s ~ %s Images", modelCategories.category_name, modelCategories.total_wallpaper));
-            holder.itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Constant.cat_id = modelCategories.id;
-                    Constant.cat_name = modelCategories.category_name;
-                    activity.startActivity( new Intent(activity, ByCategoryActivity.class));
-                    activity.overridePendingTransition(R.anim.slide_up, R.anim.no_change);
-                }
+            holder.title.setVisibility(View.VISIBLE);
+            holder.progressBar.setVisibility(View.VISIBLE);
+
+            if (modelCategories.category_image_thumb != null && !modelCategories.category_image_thumb.isEmpty()) {
+                Picasso.get()
+                        .load(modelCategories.category_image_thumb)
+                        .placeholder(R.drawable.placeholder)
+                        .into(holder.image, new Callback() {
+                            @Override
+                            public void onSuccess() {
+                                holder.progressBar.setVisibility(View.GONE);
+                            }
+
+                            @Override
+                            public void onError(Exception e) {
+                                holder.progressBar.setVisibility(View.GONE);
+                            }
+                        });
+            } else {
+                holder.progressBar.setVisibility(View.GONE);
+            }
+
+            holder.itemView.setOnClickListener(view -> {
+                Constant.cat_id = modelCategories.id;
+                Constant.cat_name = modelCategories.category_name;
+                activity.startActivity(new Intent(activity, ByCategoryActivity.class));
+                activity.overridePendingTransition(R.anim.slide_up, R.anim.no_change);
             });
         }
     }

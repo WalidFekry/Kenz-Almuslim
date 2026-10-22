@@ -2,12 +2,19 @@ package com.kenz.almuslim.ui.bycategory;
 
 import android.app.Activity;
 import android.os.Handler;
+import android.os.Looper;
 import android.view.View;
 import android.view.animation.OvershootInterpolator;
+
+import androidx.recyclerview.widget.GridLayoutManager;
 
 import com.benkkstudio.bsjson.BSJson;
 import com.benkkstudio.bsjson.BSObject;
 import com.benkkstudio.bsjson.Interface.BSJsonV2Listener;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+import com.google.gson.JsonSyntaxException;
 import com.kenz.almuslim.R;
 import com.kenz.almuslim.data.adapter.AdapterWallpaper;
 import com.kenz.almuslim.data.base.BasePresenter;
@@ -17,23 +24,18 @@ import com.kenz.almuslim.data.utils.Constant;
 import com.kenz.almuslim.data.utils.Helpers;
 import com.kenz.almuslim.data.widgets.ProgressLoader;
 import com.kenz.almuslim.databinding.ActivityByCategoryBinding;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
-import com.google.gson.JsonSyntaxException;
 
 import java.util.ArrayList;
 
-import androidx.recyclerview.widget.GridLayoutManager;
-
 import jp.wasabeef.recyclerview.adapters.ScaleInAnimationAdapter;
 
-
 public class ByCategoryPresenter extends BasePresenter<ByCategoryView> {
+    private final Handler handler = new Handler(Looper.getMainLooper());
     private Activity activity;
     private ActivityByCategoryBinding binding;
     private AdapterWallpaper adapterWallpaper;
-    private int pageCount = 1, totalPost;
+    private int pageCount = 1;
+    private int totalPost;
     private ArrayList<ModelWallpaper> arrayList;
     private ProgressLoader progressLoader;
 
@@ -42,12 +44,9 @@ public class ByCategoryPresenter extends BasePresenter<ByCategoryView> {
         this.binding = binding;
         progressLoader = new ProgressLoader(activity);
         binding.toolbarTitle.setText(Constant.cat_name);
-        binding.imageBack.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                activity.finish();
-                activity.overridePendingTransition(R.anim.no_change, R.anim.slide_down);
-            }
+        binding.imageBack.setOnClickListener(v -> {
+            activity.finish();
+            activity.overridePendingTransition(R.anim.no_change, R.anim.slide_down);
         });
         initRecyclerViewCategory();
     }
@@ -55,11 +54,11 @@ public class ByCategoryPresenter extends BasePresenter<ByCategoryView> {
     private void initRecyclerViewCategory() {
         final GridLayoutManager grid = new GridLayoutManager(activity, 3);
         binding.recyclerView.setLayoutManager(grid);
-        adapterWallpaper = new AdapterWallpaper(activity, new ArrayList<ModelWallpaper>());
+        adapterWallpaper = new AdapterWallpaper(activity, new ArrayList<>());
 
         ScaleInAnimationAdapter scaleInAnimationAdapter = new ScaleInAnimationAdapter(adapterWallpaper);
         scaleInAnimationAdapter.setFirstOnly(false);
-        scaleInAnimationAdapter.setDuration(2000);
+        scaleInAnimationAdapter.setDuration(1000);
         scaleInAnimationAdapter.setInterpolator(new OvershootInterpolator(.5f));
         binding.recyclerView.setAdapter(scaleInAnimationAdapter);
 
@@ -80,15 +79,14 @@ public class ByCategoryPresenter extends BasePresenter<ByCategoryView> {
         binding.recyclerView.addOnScrollListener(new EndlessRecyclerViewScrollListener(grid) {
             @Override
             public void onLoadMore(int page, int totalItemsCount) {
-                if (adapterWallpaper.arrayList.size() <= totalPost) {
-                    new Handler().postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
+                if (adapterWallpaper != null && adapterWallpaper.arrayList != null && adapterWallpaper.arrayList.size() <= totalPost) {
+                    handler.postDelayed(() -> {
+                        if (adapterWallpaper != null) {
                             adapterWallpaper.removeLoading();
-                            loadByCategory();
                         }
+                        loadByCategory();
                     }, 1000);
-                } else {
+                } else if (adapterWallpaper != null) {
                     adapterWallpaper.removeLoading();
                 }
             }
@@ -111,13 +109,16 @@ public class ByCategoryPresenter extends BasePresenter<ByCategoryView> {
     }
 
     private void loadByCategory() {
-        progressLoader.show();
+        if (progressLoader != null) {
+            progressLoader.show();
+        }
         arrayList = new ArrayList<>();
         BSObject bsObject = new BSObject();
         bsObject.addProperty("method_name", "wallpaper_by_cat");
         bsObject.addProperty("cat_id", Constant.cat_id);
         bsObject.addProperty("page", pageCount);
         bsObject.addProperty("limit", Constant.WALLPAPER_LOADING_POSITION);
+
         new BSJson.Builder(activity)
                 .setServer(Constant.SERVER_URL)
                 .setObject(bsObject.getProperty())
@@ -125,50 +126,60 @@ public class ByCategoryPresenter extends BasePresenter<ByCategoryView> {
                 .setListener(new BSJsonV2Listener() {
                     @Override
                     public void onLoaded(String response) {
-                        try {
-                            JsonObject jsonObject = JsonParser.parseString(response).getAsJsonObject();
-                            JsonArray jsonArray = jsonObject.getAsJsonArray(Constant.TAG_ROOT);
-                            for (int i = 0; i < jsonArray.size(); i++) {
-                                JsonObject objJson = jsonArray.get(i).getAsJsonObject();
-                                if (Constant.native_options && Constant.native_loaded) {
-                                    if (i == (Constant.WALLPAPER_LOADING_POSITION / 2)) {
-                                        arrayList.add(new ModelWallpaper(AdapterWallpaper.VIEW_NATIVE));
+                        handler.post(() -> {
+                            try {
+                                JsonObject jsonObject = JsonParser.parseString(response).getAsJsonObject();
+                                JsonArray jsonArray = jsonObject.getAsJsonArray(Constant.TAG_ROOT);
+                                for (int i = 0; i < jsonArray.size(); i++) {
+                                    JsonObject objJson = jsonArray.get(i).getAsJsonObject();
+                                    if (Constant.native_options && Constant.native_loaded) {
+                                        if (i == (Constant.WALLPAPER_LOADING_POSITION / 2)) {
+                                            arrayList.add(new ModelWallpaper(AdapterWallpaper.VIEW_NATIVE));
+                                        }
                                     }
+                                    totalPost = objJson.get("post_total").getAsInt();
+                                    int wall_id = objJson.get("wall_id").getAsInt();
+                                    int cat_id = objJson.get("cat_id").getAsInt();
+                                    String wallpaper_title = objJson.get("wallpaper_title").getAsString();
+                                    String wallpaper_image_thumb = objJson.get("wallpaper_image_thumb").getAsString();
+                                    String wallpaper_image_detail = objJson.get("wallpaper_image_detail").getAsString();
+                                    String wallpaper_image_original = objJson.get("wallpaper_image_original").getAsString();
+                                    String wallpaper_tags = objJson.get("wallpaper_tags").getAsString();
+                                    String wallpaper_type = objJson.get("wallpaper_type").getAsString();
+                                    String wallpaper_premium = objJson.get("wallpaper_premium").getAsString();
+                                    Long numLikes = objJson.get("num_likes").getAsLong();
+                                    Long numViews = objJson.get("num_views").getAsLong();
+                                    arrayList.add(new ModelWallpaper(wall_id,
+                                            cat_id,
+                                            wallpaper_title,
+                                            wallpaper_image_thumb,
+                                            wallpaper_image_detail,
+                                            wallpaper_image_original,
+                                            wallpaper_tags,
+                                            wallpaper_type,
+                                            wallpaper_premium,
+                                            AdapterWallpaper.VIEW_ITEM, numLikes, numViews));
                                 }
-                                totalPost = objJson.get("post_total").getAsInt();
-                                int wall_id = objJson.get("wall_id").getAsInt();
-                                int cat_id = objJson.get("cat_id").getAsInt();
-                                String wallpaper_title = objJson.get("wallpaper_title").getAsString();
-                                String wallpaper_image_thumb = objJson.get("wallpaper_image_thumb").getAsString();
-                                String wallpaper_image_detail = objJson.get("wallpaper_image_detail").getAsString();
-                                String wallpaper_image_original = objJson.get("wallpaper_image_original").getAsString();
-                                String wallpaper_tags = objJson.get("wallpaper_tags").getAsString();
-                                String wallpaper_type = objJson.get("wallpaper_type").getAsString();
-                                String wallpaper_premium = objJson.get("wallpaper_premium").getAsString();
-                                Long numLikes = objJson.get("num_likes").getAsLong();
-                                Long numViews = objJson.get("num_views").getAsLong();
-                                arrayList.add(new ModelWallpaper(wall_id,
-                                        cat_id,
-                                        wallpaper_title,
-                                        wallpaper_image_thumb,
-                                        wallpaper_image_detail,
-                                        wallpaper_image_original,
-                                        wallpaper_tags,
-                                        wallpaper_type,
-                                        wallpaper_premium,
-                                        AdapterWallpaper.VIEW_ITEM, numLikes, numViews));
+                                if (adapterWallpaper != null) {
+                                    adapterWallpaper.insertData(arrayList);
+                                }
+                                pageCount++;
+                            } catch (JsonSyntaxException e) {
+                                e.printStackTrace();
                             }
-                            adapterWallpaper.insertData(arrayList);
-                            pageCount++;
-                        } catch (JsonSyntaxException e) {
-                            e.printStackTrace();
-                        }
-                        progressLoader.stopLoader();
+                            if (progressLoader != null) {
+                                progressLoader.stopLoader();
+                            }
+                        });
                     }
 
                     @Override
                     public void onError(String error) {
-                        progressLoader.stopLoader();
+                        handler.post(() -> {
+                            if (progressLoader != null) {
+                                progressLoader.stopLoader();
+                            }
+                        });
                     }
                 })
                 .load();

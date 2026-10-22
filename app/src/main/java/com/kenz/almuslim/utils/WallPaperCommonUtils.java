@@ -138,29 +138,47 @@ public final class WallPaperCommonUtils {
     }
 
     private static void handleImageAction(String type, AppCompatActivity activity, Bitmap bitmap, String fileName) {
-        File directory;
-        if ("download".equals(type) || "wallpaper".equals(type)) {
-            File publicPicturesFolder = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
-            directory = new File(publicPicturesFolder, activity.getString(R.string.download_folder));
-            if (!directory.exists()) {
-                directory.mkdirs();
-            }
-        } else {
-            directory = new File(activity.getExternalCacheDir(), "shared_images");
-            if (!directory.exists()) {
-                directory.mkdirs();
-            }
+        if ("wallpaper".equals(type)) {
+            showBottomSheetDialog(bitmap, activity);
+            return;
         }
 
-        File imageFile = new File(directory, fileName.endsWith(".png") || fileName.endsWith(".jpg") || fileName.endsWith(".jpeg") ? fileName : fileName + ".jpg");
+        if ("download".equals(type)) {
+            File publicPicturesFolder = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
+            File directory = new File(publicPicturesFolder, activity.getString(R.string.download_folder));
+            if (!directory.exists()) {
+                directory.mkdirs();
+            }
+            File imageFile = new File(directory, fileName.endsWith(".png") || fileName.endsWith(".jpg") || fileName.endsWith(".jpeg") ? fileName : fileName + ".jpg");
 
-        try {
-            if (!imageFile.exists()) {
+            try {
                 FileOutputStream out = new FileOutputStream(imageFile);
                 bitmap.compress(Bitmap.CompressFormat.JPEG, 95, out);
                 out.flush();
                 out.close();
+
+                MediaScannerConnection.scanFile(activity, new String[]{imageFile.getAbsolutePath()},
+                        new String[]{"image/jpeg"},
+                        (path, uri) -> activity.runOnUiThread(() ->
+                                Toast.makeText(activity, "تم حفظ الصورة بنجاح في الاستوديو", Toast.LENGTH_SHORT).show()));
+            } catch (IOException e) {
+                e.printStackTrace();
+                Toast.makeText(activity, "حدث خطأ أثناء حفظ الصورة", Toast.LENGTH_SHORT).show();
             }
+            return;
+        }
+
+        File directory = new File(activity.getExternalCacheDir(), "shared_images");
+        if (!directory.exists()) {
+            directory.mkdirs();
+        }
+        File imageFile = new File(directory, fileName.endsWith(".png") || fileName.endsWith(".jpg") || fileName.endsWith(".jpeg") ? fileName : fileName + ".jpg");
+
+        try {
+            FileOutputStream out = new FileOutputStream(imageFile);
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 95, out);
+            out.flush();
+            out.close();
 
             Uri contentUri = FileProvider.getUriForFile(activity, activity.getPackageName() + ".fileprovider", imageFile);
 
@@ -177,13 +195,6 @@ public final class WallPaperCommonUtils {
                             + activity.getPackageName());
                     shareIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
                     activity.startActivity(Intent.createChooser(shareIntent, activity.getString(R.string.share_image)));
-                    break;
-
-                case "download":
-                    MediaScannerConnection.scanFile(activity, new String[]{imageFile.getAbsolutePath()},
-                            new String[]{"image/jpeg"},
-                            (path, uri) -> activity.runOnUiThread(() ->
-                                    Toast.makeText(activity, "تم حفظ الصورة بنجاح في الاستوديو", Toast.LENGTH_SHORT).show()));
                     break;
 
                 case "whatsapp":
@@ -225,10 +236,6 @@ public final class WallPaperCommonUtils {
                                 activity.getString(R.string.please_install_messenger),
                                 Toast.LENGTH_SHORT).show());
                     }
-                    break;
-
-                case "wallpaper":
-                    showBottomSheetDialog(bitmap, activity);
                     break;
             }
         } catch (IOException e) {

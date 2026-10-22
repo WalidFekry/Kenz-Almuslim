@@ -12,24 +12,6 @@ import android.view.View;
 import android.view.animation.OvershootInterpolator;
 import android.widget.TextView;
 
-import com.benkkstudio.bsjson.BSJson;
-import com.benkkstudio.bsjson.BSObject;
-import com.benkkstudio.bsjson.Interface.BSJsonV2Listener;
-import com.kenz.almuslim.App;
-import com.kenz.almuslim.R;
-import com.kenz.almuslim.data.adapter.AdapterWallpaper;
-import com.kenz.almuslim.data.local.model.LocalWallpaper;
-import com.kenz.almuslim.ui.detail.vertical.VerticalAdapter;
-import com.kenz.almuslim.ui.main.MainActivity;
-import com.google.android.material.bottomsheet.BottomSheetDialog;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
-import com.google.gson.JsonSyntaxException;
-
-import java.util.ArrayList;
-import java.util.List;
-
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -37,19 +19,35 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
-import io.reactivex.disposables.CompositeDisposable;
-import jp.wasabeef.recyclerview.adapters.ScaleInAnimationAdapter;
-
-
+import com.benkkstudio.bsjson.BSJson;
+import com.benkkstudio.bsjson.BSObject;
+import com.benkkstudio.bsjson.Interface.BSJsonV2Listener;
+import com.google.android.material.bottomsheet.BottomSheetDialog;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+import com.google.gson.JsonSyntaxException;
+import com.kenz.almuslim.App;
+import com.kenz.almuslim.R;
+import com.kenz.almuslim.data.adapter.AdapterWallpaper;
 import com.kenz.almuslim.data.base.BasePresenter;
 import com.kenz.almuslim.data.base.EndlessRecyclerViewScrollListener;
+import com.kenz.almuslim.data.local.model.LocalWallpaper;
 import com.kenz.almuslim.data.model.ModelWallpaper;
 import com.kenz.almuslim.data.utils.Constant;
 import com.kenz.almuslim.data.widgets.ProgressLoader;
+import com.kenz.almuslim.ui.detail.vertical.VerticalAdapter;
+import com.kenz.almuslim.ui.main.MainActivity;
 import com.kenz.almuslim.utils.CommonUtils;
 import com.kenz.almuslim.utils.rx.SchedulerProvider;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import io.reactivex.disposables.CompositeDisposable;
+import jp.wasabeef.recyclerview.adapters.ScaleInAnimationAdapter;
 
 public class HomePresenter extends BasePresenter<HomeView> {
     public static final String FILTER_POPULAR = "FILTER_POPULAR";
@@ -58,23 +56,24 @@ public class HomePresenter extends BasePresenter<HomeView> {
     public static final String FILTER_FREE = "FILTER_FREE";
     public static final String FILTER_GIF = "FILTER_GIF";
     public static final String FILTER_IMAGE = "FILTER_IMAGE";
+    public static final String TAG = "HomePresenter";
+    public ProgressLoader progressLoader;
+    public CompositeDisposable compositeDisposable = new CompositeDisposable();
+    SchedulerProvider schedulerProvider = new SchedulerProvider();
+    Handler handler = new Handler(Looper.getMainLooper());
     private AppCompatActivity activity;
+    private final GridLayoutManager grid = new GridLayoutManager(activity, 3);
+    private final LinearLayoutManager verticalManager = new LinearLayoutManager(activity);
     private View rootView;
     private int pageCount = 1, totalPost;
     private ArrayList<ModelWallpaper> arrayList;
     private AdapterWallpaper adapterWallpaper;
-    public ProgressLoader progressLoader;
     private SwipeRefreshLayout swipeRefreshLayout;
-
-
     private RecyclerView recyclerView;
-
     private RecyclerView verticalRecycler;
     private VerticalAdapter verticalAdapter;
-
-    private final GridLayoutManager grid = new GridLayoutManager(activity, 3);
-    private final LinearLayoutManager verticalManager = new LinearLayoutManager(activity);
-
+    private boolean isVertical = false;
+    private boolean isLocalSet = false;
     private final EndlessRecyclerViewScrollListener gridListener = new EndlessRecyclerViewScrollListener(grid) {
         @Override
         public void onLoadMore(int page, int totalItemsCount) {
@@ -95,7 +94,6 @@ public class HomePresenter extends BasePresenter<HomeView> {
         public void onScrolled(int dy) {
         }
     };
-
     private final EndlessRecyclerViewScrollListener linearListener = new EndlessRecyclerViewScrollListener(verticalManager) {
         @Override
         public void onLoadMore(int page, int totalItemsCount) {
@@ -121,8 +119,7 @@ public class HomePresenter extends BasePresenter<HomeView> {
         this.activity = activity;
         this.rootView = rootView;
         progressLoader = new ProgressLoader(activity);
-        if (CommonUtils.isNetworkConnected(activity))
-        initRecyclerViewHome();
+        if (CommonUtils.isNetworkConnected(activity)) initRecyclerViewHome();
         initSwipeRefresh();
     }
 
@@ -142,9 +139,6 @@ public class HomePresenter extends BasePresenter<HomeView> {
             }
         });
     }
-
-
-    private boolean isVertical = false;
 
     private void initRecyclerViewHome() {
         recyclerView = rootView.findViewById(R.id.recycler_view);
@@ -218,41 +212,27 @@ public class HomePresenter extends BasePresenter<HomeView> {
             loadNow();
         } else {
             getListOfLocalImages();
-//            recyclerView.setVisibility(View.GONE);
-//            rootView.findViewById(R.id.layout_no_connection).setVisibility(View.VISIBLE);
-//            if (swipeRefreshLayout != null && swipeRefreshLayout.isRefreshing()) {
-//                swipeRefreshLayout.setRefreshing(false);
-//            }
         }
 
     }
 
-
-
-
-
     public void loadNow() {
-        if (!CommonUtils.isNetworkConnected(activity))
-            return;
+        if (!CommonUtils.isNetworkConnected(activity)) return;
         BSObject bsObject = new BSObject();
         bsObject.addProperty("method_name", "wallpaper_all");
         bsObject.addProperty("page", pageCount);
         bsObject.addProperty("limit", Constant.WALLPAPER_LOADING_POSITION);
         bsObject.addProperty("filter", Constant.filter_value);
-        new BSJson.Builder(activity)
-                .setServer(Constant.SERVER_URL)
-                .setObject(bsObject.getProperty())
-                .setMethod(BSJson.METHOD_POST)
-                .setListener(new BSJsonV2Listener() {
-                    @Override
-                    public void onLoaded(String response) {
-                        handler.post(() -> {
-                            arrayList.clear();
-                            try {
-                                JsonObject jsonObject = JsonParser.parseString(response).getAsJsonObject();
-                                JsonArray jsonArray = jsonObject.getAsJsonArray(Constant.TAG_ROOT);
-                                for (int i = 0; i < jsonArray.size(); i++) {
-                                    JsonObject objJson = jsonArray.get(i).getAsJsonObject();
+        new BSJson.Builder(activity).setServer(Constant.SERVER_URL).setObject(bsObject.getProperty()).setMethod(BSJson.METHOD_POST).setListener(new BSJsonV2Listener() {
+            @Override
+            public void onLoaded(String response) {
+                handler.post(() -> {
+                    arrayList.clear();
+                    try {
+                        JsonObject jsonObject = JsonParser.parseString(response).getAsJsonObject();
+                        JsonArray jsonArray = jsonObject.getAsJsonArray(Constant.TAG_ROOT);
+                        for (int i = 0; i < jsonArray.size(); i++) {
+                            JsonObject objJson = jsonArray.get(i).getAsJsonObject();
 //                                    if (Constant.native_options) {
 //                                        if (i == (Constant.WALLPAPER_LOADING_POSITION / 2)) {
 //                                            if (Constant.AdsOptions.IDENTIFIER.equals(Constant.AdsOptions.FACEBOOK)) {
@@ -263,70 +243,58 @@ public class HomePresenter extends BasePresenter<HomeView> {
 //                                            }
 //                                        }
 //                                    }
-                                    totalPost = objJson.get("post_total").getAsInt();
-                                    int wall_id = objJson.get("wall_id").getAsInt();
-                                    int cat_id = objJson.get("cat_id").getAsInt();
-                                    String wallpaper_title = objJson.get("wallpaper_title").getAsString();
-                                    String wallpaper_image_thumb = objJson.get("wallpaper_image_thumb").getAsString();
-                                    String wallpaper_image_detail = objJson.get("wallpaper_image_detail").getAsString();
-                                    String wallpaper_image_original = objJson.get("wallpaper_image_original").getAsString();
-                                    String wallpaper_tags = objJson.get("wallpaper_tags").getAsString();
-                                    String wallpaper_type = objJson.get("wallpaper_type").getAsString();
-                                    String wallpaper_premium = objJson.get("wallpaper_premium").getAsString();
-                                    Long num_likes = objJson.get("num_likes").getAsLong();
-                                    Long num_views = objJson.get("num_views").getAsLong();
-                                    arrayList.add(new ModelWallpaper(wall_id,
-                                            cat_id,
-                                            wallpaper_title,
-                                            wallpaper_image_thumb,
-                                            wallpaper_image_detail,
-                                            wallpaper_image_original,
-                                            wallpaper_tags,
-                                            wallpaper_type,
-                                            wallpaper_premium,
-                                            AdapterWallpaper.VIEW_ITEM,
-                                            num_likes,
-                                            num_views));
-                                }
-                                if (isVertical) {
-                                    verticalAdapter.insertData(arrayList);
-                                } else {
-                                    adapterWallpaper.insertData(arrayList);
-                                }
-                                Constant.arrayListDetail = arrayList;
-                                pageCount++;
-                                if (!isLocalSet) {
-                                    storeFirstRange(arrayList);
-                                }
-                                if (arrayList.isEmpty()) {
-                                    recyclerView.setVisibility(View.GONE);
-                                    verticalRecycler.setVisibility(View.GONE);
-                                    rootView.findViewById(R.id.layout_no_favourite).setVisibility(View.VISIBLE);
-                                } else {
-                                    if (isVertical) {
-                                        verticalRecycler.setVisibility(View.VISIBLE);
-                                        recyclerView.setVisibility(View.GONE);
-                                    } else {
-                                        recyclerView.setVisibility(View.VISIBLE);
-                                        verticalRecycler.setVisibility(View.GONE);
-                                    }
-                                    rootView.findViewById(R.id.layout_no_favourite).setVisibility(View.GONE);
-                                }
-                            } catch (JsonSyntaxException e) {
-                                e.printStackTrace();
+                            totalPost = objJson.get("post_total").getAsInt();
+                            int wall_id = objJson.get("wall_id").getAsInt();
+                            int cat_id = objJson.get("cat_id").getAsInt();
+                            String wallpaper_title = objJson.get("wallpaper_title").getAsString();
+                            String wallpaper_image_thumb = objJson.get("wallpaper_image_thumb").getAsString();
+                            String wallpaper_image_detail = objJson.get("wallpaper_image_detail").getAsString();
+                            String wallpaper_image_original = objJson.get("wallpaper_image_original").getAsString();
+                            String wallpaper_tags = objJson.get("wallpaper_tags").getAsString();
+                            String wallpaper_type = objJson.get("wallpaper_type").getAsString();
+                            String wallpaper_premium = objJson.get("wallpaper_premium").getAsString();
+                            Long num_likes = objJson.get("num_likes").getAsLong();
+                            Long num_views = objJson.get("num_views").getAsLong();
+                            arrayList.add(new ModelWallpaper(wall_id, cat_id, wallpaper_title, wallpaper_image_thumb, wallpaper_image_detail, wallpaper_image_original, wallpaper_tags, wallpaper_type, wallpaper_premium, AdapterWallpaper.VIEW_ITEM, num_likes, num_views));
+                        }
+                        if (isVertical) {
+                            verticalAdapter.insertData(arrayList);
+                        } else {
+                            adapterWallpaper.insertData(arrayList);
+                        }
+                        Constant.arrayListDetail = arrayList;
+                        pageCount++;
+                        if (!isLocalSet) {
+                            storeFirstRange(arrayList);
+                        }
+                        if (arrayList.isEmpty()) {
+                            recyclerView.setVisibility(View.GONE);
+                            verticalRecycler.setVisibility(View.GONE);
+                            rootView.findViewById(R.id.layout_no_favourite).setVisibility(View.VISIBLE);
+                        } else {
+                            if (isVertical) {
+                                verticalRecycler.setVisibility(View.VISIBLE);
+                                recyclerView.setVisibility(View.GONE);
+                            } else {
+                                recyclerView.setVisibility(View.VISIBLE);
+                                verticalRecycler.setVisibility(View.GONE);
                             }
-                            swipeRefreshLayout.setRefreshing(false);
-                            progressLoader.stopLoader();
-                        });
+                            rootView.findViewById(R.id.layout_no_favourite).setVisibility(View.GONE);
+                        }
+                    } catch (JsonSyntaxException e) {
+                        e.printStackTrace();
                     }
+                    swipeRefreshLayout.setRefreshing(false);
+                    progressLoader.stopLoader();
+                });
+            }
 
-                    @Override
-                    public void onError(String error) {
-                        swipeRefreshLayout.setRefreshing(false);
-                        progressLoader.stopLoader();
-                    }
-                })
-                .load();
+            @Override
+            public void onError(String error) {
+                swipeRefreshLayout.setRefreshing(false);
+                progressLoader.stopLoader();
+            }
+        }).load();
     }
 
     public void clearAll() {
@@ -343,10 +311,8 @@ public class HomePresenter extends BasePresenter<HomeView> {
         initRecyclerViewHome();
     }
 
-
     private void showFilterDialog() {
-        @SuppressLint("InflateParams")
-        View view = activity.getLayoutInflater().inflate(R.layout.dialog_filter, null);
+        @SuppressLint("InflateParams") View view = activity.getLayoutInflater().inflate(R.layout.dialog_filter, null);
         final BottomSheetDialog dialog_desc = new BottomSheetDialog(activity, R.style.SheetDialog);
         dialog_desc.setContentView(view);
         dialog_desc.show();
@@ -377,29 +343,12 @@ public class HomePresenter extends BasePresenter<HomeView> {
         }
     }
 
-
-    private boolean isLocalSet = false;
-
-    public CompositeDisposable compositeDisposable = new CompositeDisposable();
-    SchedulerProvider schedulerProvider = new SchedulerProvider();
-
-    Handler handler = new Handler(Looper.getMainLooper());
-
-    public static final String TAG = "HomePresenter";
-
     private void storeFirstRange(List<ModelWallpaper> items) {
         handler.post(() -> {
             isLocalSet = true;
-            compositeDisposable.add(
-                    App.localDataManager.resetDatabase()
-                            .subscribeOn(schedulerProvider.io())
-                            .observeOn(schedulerProvider.ui())
-                            .subscribe(aBoolean -> {
-                                        if (aBoolean)
-                                            startStoring(items);
-                                    }, throwable -> Log.d(TAG, "storeFirstRange: => " + throwable.getMessage())
-                            )
-            );
+            compositeDisposable.add(App.localDataManager.resetDatabase().subscribeOn(schedulerProvider.io()).observeOn(schedulerProvider.ui()).subscribe(aBoolean -> {
+                if (aBoolean) startStoring(items);
+            }, throwable -> Log.d(TAG, "storeFirstRange: => " + throwable.getMessage())));
         });
     }
 
@@ -439,51 +388,28 @@ public class HomePresenter extends BasePresenter<HomeView> {
 
 
     private void storeImageLocally(LocalWallpaper localWallpaper) {
-        handler.post(() -> compositeDisposable.add(
-                App.localDataManager.storeLocalWallpaper(localWallpaper)
-                        .subscribeOn(schedulerProvider.io())
-                        .observeOn(schedulerProvider.ui())
-                        .subscribe(aBoolean -> Log.d(TAG, "storeImageLocally: => image stored >><<"),
-                                throwable -> Log.d("storeImageLocally", "storeImageLocally: " + throwable.getMessage()))
-        ));
+        handler.post(() -> compositeDisposable.add(App.localDataManager.storeLocalWallpaper(localWallpaper).subscribeOn(schedulerProvider.io()).observeOn(schedulerProvider.ui()).subscribe(aBoolean -> Log.d(TAG, "storeImageLocally: => image stored >><<"), throwable -> Log.d("storeImageLocally", "storeImageLocally: " + throwable.getMessage()))));
     }
 
 
     private void getListOfLocalImages() {
-        compositeDisposable.add(
-                App.localDataManager.getListOfLocalWallpaper()
-                        .subscribeOn(schedulerProvider.io())
-                        .observeOn(schedulerProvider.ui())
-                        .subscribe(aList -> handler.post(() -> {
-                            for (LocalWallpaper wallpaper : aList) {
-                                arrayList.add(new ModelWallpaper(wallpaper.wall_id,
-                                        wallpaper.cat_id,
-                                        wallpaper.wallpaper_title,
-                                        "",
-                                        "",
-                                        "",
-                                        wallpaper.wallpaper_tags,
-                                        wallpaper.wallpaper_tags,
-                                        "NO",
-                                        AdapterWallpaper.VIEW_ITEM,
-                                        wallpaper.wallpaper_image_thumb,
-                                        wallpaper.wallpaper_image_original
-                                ));
-                            }
-                            if (isVertical) {
-                                verticalAdapter.insertData(arrayList);
-                                verticalRecycler.setVisibility(View.VISIBLE);
-                                recyclerView.setVisibility(View.GONE);
-                            } else {
-                                adapterWallpaper.insertData(arrayList);
-                                recyclerView.setVisibility(View.VISIBLE);
-                                verticalRecycler.setVisibility(View.GONE);
-                            }
-                            Constant.arrayListDetail = arrayList;
-                            swipeRefreshLayout.setRefreshing(false);
-                            progressLoader.stopLoader();
-                        }), throwable -> Log.d(TAG, "getListOfLocalImages: " + throwable.getMessage()))
-        );
+        compositeDisposable.add(App.localDataManager.getListOfLocalWallpaper().subscribeOn(schedulerProvider.io()).observeOn(schedulerProvider.ui()).subscribe(aList -> handler.post(() -> {
+            for (LocalWallpaper wallpaper : aList) {
+                arrayList.add(new ModelWallpaper(wallpaper.wall_id, wallpaper.cat_id, wallpaper.wallpaper_title, "", "", "", wallpaper.wallpaper_tags, wallpaper.wallpaper_tags, "NO", AdapterWallpaper.VIEW_ITEM, wallpaper.wallpaper_image_thumb, wallpaper.wallpaper_image_original));
+            }
+            if (isVertical) {
+                verticalAdapter.insertData(arrayList);
+                verticalRecycler.setVisibility(View.VISIBLE);
+                recyclerView.setVisibility(View.GONE);
+            } else {
+                adapterWallpaper.insertData(arrayList);
+                recyclerView.setVisibility(View.VISIBLE);
+                verticalRecycler.setVisibility(View.GONE);
+            }
+            Constant.arrayListDetail = arrayList;
+            swipeRefreshLayout.setRefreshing(false);
+            progressLoader.stopLoader();
+        }), throwable -> Log.d(TAG, "getListOfLocalImages: " + throwable.getMessage())));
     }
 
 

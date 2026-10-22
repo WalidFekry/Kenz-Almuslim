@@ -6,7 +6,7 @@ import androidx.lifecycle.ViewModel;
  * Created by Dell on 10/9/2017.
  */
 
-public class BaseViewModel<V extends MvpView, P extends Presenter<V>> extends ViewModel {
+public class BaseViewModel<V, P extends Presenter<V>> extends ViewModel {
     private P presenter;
 
     void setPresenter(P presenter) {

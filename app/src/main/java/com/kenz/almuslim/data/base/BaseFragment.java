@@ -33,7 +33,7 @@ import android.view.ViewGroup;
  *  * Last Reviewed by : <Reviewer Name> on <mm/dd/yy>
  *  ****************************************************************************
  */
-public abstract class BaseFragment<V extends MvpView, P extends BasePresenter<V>> extends Fragment implements MvpView, View.OnClickListener {
+public abstract class BaseFragment<V, P extends BasePresenter<V>> extends Fragment implements View.OnClickListener {
     protected P presenter;
     private int mDefaultValue = -1;
     private ViewDataBinding viewDataBinding;

@@ -11,12 +11,11 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 import androidx.databinding.ViewDataBinding;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProviders;
 
 
 @SuppressWarnings("unchecked")
-public abstract class BaseActivity<V extends MvpView, P extends BasePresenter<V>> extends AppCompatActivity implements MvpView{
+public abstract class BaseActivity<V, P extends BasePresenter<V>> extends AppCompatActivity {
     protected P presenter;
     protected ViewDataBinding dataBinding;
     protected abstract int getLayoutId();

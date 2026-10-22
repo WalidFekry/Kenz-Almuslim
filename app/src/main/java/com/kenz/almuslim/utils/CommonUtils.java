@@ -18,21 +18,13 @@ public final class CommonUtils {
 
     public static boolean isNetworkConnected(@NotNull Context context) {
         ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
-        if (Build.VERSION.SDK_INT >= 23) {
-            if (connectivityManager != null) {
-                final Network network = connectivityManager.getActiveNetwork();
-                if (network != null) {
-                    final NetworkCapabilities networkCapabilities = connectivityManager.getNetworkCapabilities(network);
-                    return networkCapabilities != null && (networkCapabilities.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR)
-                            || networkCapabilities.hasTransport(NetworkCapabilities.TRANSPORT_WIFI));
-                }
+        if (connectivityManager != null) {
+            final Network network = connectivityManager.getActiveNetwork();
+            if (network != null) {
+                final NetworkCapabilities networkCapabilities = connectivityManager.getNetworkCapabilities(network);
+                return networkCapabilities != null && (networkCapabilities.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR)
+                        || networkCapabilities.hasTransport(NetworkCapabilities.TRANSPORT_WIFI));
             }
-        } else {
-            NetworkInfo activeNetwork = null;
-            if (connectivityManager != null) {
-                activeNetwork = connectivityManager.getActiveNetworkInfo();
-            }
-            return activeNetwork != null && activeNetwork.isConnected();
         }
         return false;
     }

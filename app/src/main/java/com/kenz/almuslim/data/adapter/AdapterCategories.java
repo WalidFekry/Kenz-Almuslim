@@ -93,25 +93,15 @@ public class AdapterCategories extends RecyclerView.Adapter<RecyclerView.ViewHol
             final OriginalViewHolder holder = (OriginalViewHolder) holderPrent;
             holder.title.setText(String.format("%s ~ %s Images", modelCategories.category_name, modelCategories.total_wallpaper));
             holder.title.setVisibility(View.VISIBLE);
-            holder.progressBar.setVisibility(View.VISIBLE);
+            if (holder.progressBar != null) {
+                holder.progressBar.setVisibility(View.GONE);
+            }
 
             if (modelCategories.category_image_thumb != null && !modelCategories.category_image_thumb.isEmpty()) {
                 Picasso.get()
                         .load(modelCategories.category_image_thumb)
                         .placeholder(R.drawable.placeholder)
-                        .into(holder.image, new Callback() {
-                            @Override
-                            public void onSuccess() {
-                                holder.progressBar.setVisibility(View.GONE);
-                            }
-
-                            @Override
-                            public void onError(Exception e) {
-                                holder.progressBar.setVisibility(View.GONE);
-                            }
-                        });
-            } else {
-                holder.progressBar.setVisibility(View.GONE);
+                        .into(holder.image);
             }
 
             holder.itemView.setOnClickListener(view -> {
@@ -133,12 +123,17 @@ public class AdapterCategories extends RecyclerView.Adapter<RecyclerView.ViewHol
         return arrayList.get(position).viewType;
     }
 
-    public void insertData(ArrayList<ModelCategories> arrayList) {
-        this.arrayList.addAll(arrayList);
-        notifyItemRangeInserted(getItemCount(), arrayList.size());
-        if(arrayList.size() >= Constant.WALLPAPER_LOADING_POSITION){
+    public void insertData(ArrayList<ModelCategories> newItems) {
+        removeLoading();
+        if (newItems == null || newItems.isEmpty()) {
+            return;
+        }
+        int previousSize = this.arrayList.size();
+        this.arrayList.addAll(newItems);
+        notifyItemRangeInserted(previousSize, newItems.size());
+        if (newItems.size() >= Constant.CATEGORY_LOADING_POSITION) {
             this.arrayList.add(new ModelCategories(VIEW_PROGRESS));
-            notifyItemRangeInserted(getItemCount(), 1);
+            notifyItemInserted(this.arrayList.size() - 1);
         }
     }
 

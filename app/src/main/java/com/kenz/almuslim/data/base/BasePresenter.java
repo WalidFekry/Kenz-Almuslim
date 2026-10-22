@@ -5,7 +5,7 @@ import android.os.Bundle;
 import androidx.lifecycle.Lifecycle;
 import androidx.lifecycle.LifecycleObserver;
 
-public abstract class BasePresenter<V extends MvpView> implements LifecycleObserver, Presenter<V> {
+public abstract class BasePresenter<V> implements LifecycleObserver, Presenter<V> {
 
     /**
      * Marks a class as a LifecycleObserver.

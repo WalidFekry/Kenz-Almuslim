@@ -8,50 +8,39 @@ import android.content.SharedPreferences;
 import android.net.Uri;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.LinearLayout;
 import android.widget.PopupMenu;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.benkkstudio.bsmob.BSMob;
-import com.benkkstudio.bsmob.Interface.BannerListener;
-import com.benkkstudio.bsmob.Interface.InterstitialListener;
+import androidx.coordinatorlayout.widget.CoordinatorLayout;
+import androidx.fragment.app.FragmentManager;
+
+import com.google.android.material.appbar.AppBarLayout;
 import com.kenz.almuslim.R;
+import com.kenz.almuslim.data.base.BasePresenter;
+import com.kenz.almuslim.data.utils.Constant;
+import com.kenz.almuslim.data.utils.SharedPref;
 import com.kenz.almuslim.databinding.ActivityMainBinding;
 import com.kenz.almuslim.ui.splash.SplashActivity;
-import com.google.android.material.appbar.AppBarLayout;
 import com.kenz.almuslim.utils.CommonUtils;
 import com.yarolegovich.slidingrootnav.SlideGravity;
 import com.yarolegovich.slidingrootnav.SlidingRootNav;
 import com.yarolegovich.slidingrootnav.SlidingRootNavBuilder;
 
-import androidx.coordinatorlayout.widget.CoordinatorLayout;
-import androidx.fragment.app.DialogFragment;
-import androidx.fragment.app.FragmentManager;
+import org.jetbrains.annotations.NotNull;
 
 import uc.benkkstudio.bsbottomnavigation.NavigationClickListner;
-
-import com.kenz.almuslim.data.base.BasePresenter;
-import com.kenz.almuslim.data.utils.Constant;
-import com.kenz.almuslim.data.utils.SharedPref;
-
-import com.kenz.almuslim.ui.privacy.FragmentPrivacy;
-
-import org.jetbrains.annotations.NotNull;
 
 public class MainPresenter extends BasePresenter<MainView> {
     public static final String THEME_MODE = "THEME_MODE";
     private Activity activity;
     private ActivityMainBinding binding;
     private SlidingRootNav slidingRootNav;
-    private FragmentManager fragmentManager;
 
     private SharedPreferences preferences;
 
     protected void initView(@NotNull Activity activity, @NotNull ActivityMainBinding binding, FragmentManager fragmentManager) {
         this.activity = activity;
         this.binding = binding;
-        this.fragmentManager = fragmentManager;
         setClickListener();
         initBottomNavigation();
         initDrawer();
@@ -96,7 +85,6 @@ public class MainPresenter extends BasePresenter<MainView> {
     private void setupFilter() {
 
     }
-
 
 
     private void setClickListener() {
@@ -159,12 +147,7 @@ public class MainPresenter extends BasePresenter<MainView> {
 
     @SuppressLint("UseCompatLoadingForDrawables")
     private void initDrawer() {
-        slidingRootNav = new SlidingRootNavBuilder(activity)
-                .withMenuOpened(false)
-                .withContentClickableWhenMenuOpened(false)
-                .withGravity(SlideGravity.LEFT)
-                .withMenuLayout(R.layout.drawer_layout)
-                .inject();
+        slidingRootNav = new SlidingRootNavBuilder(activity).withMenuOpened(false).withContentClickableWhenMenuOpened(false).withGravity(SlideGravity.LEFT).withMenuLayout(R.layout.drawer_layout).inject();
         TextView headerTitle = slidingRootNav.getLayout().findViewById(R.id.headerTitle);
         TextView headerEmail = slidingRootNav.getLayout().findViewById(R.id.headerEmail);
         headerTitle.setText(Constant.app_name);
@@ -268,9 +251,8 @@ public class MainPresenter extends BasePresenter<MainView> {
             @Override
             public void onClick(View view) {
                 slidingRootNav.closeMenu(true);
-                FragmentPrivacy fragmentPrivacy = new FragmentPrivacy();
-                fragmentPrivacy.setStyle(DialogFragment.STYLE_NO_TITLE, 0);
-                fragmentPrivacy.show(fragmentManager, "fragmentPrivacy");
+                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://sites.google.com/view/kenz-almuslim"));
+                activity.startActivity(intent);
             }
         });
     }

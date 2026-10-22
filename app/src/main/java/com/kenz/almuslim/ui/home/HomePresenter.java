@@ -194,11 +194,11 @@ public class HomePresenter extends BasePresenter<HomeView> {
             }
         } else {
             verticalRecycler.setLayoutManager(verticalManager);
-            verticalRecycler.setAdapter(verticalAdapter);
             ScaleInAnimationAdapter scaleInAnimationAdapter = new ScaleInAnimationAdapter(verticalAdapter);
             scaleInAnimationAdapter.setFirstOnly(false);
             scaleInAnimationAdapter.setDuration(1000);
             scaleInAnimationAdapter.setInterpolator(new OvershootInterpolator(.5f));
+            verticalRecycler.setAdapter(scaleInAnimationAdapter);
             if (CommonUtils.isNetworkConnected(activity)) {
                 verticalRecycler.addOnScrollListener(linearListener);
             }
@@ -298,11 +298,18 @@ public class HomePresenter extends BasePresenter<HomeView> {
                                 if (!isLocalSet) {
                                     storeFirstRange(arrayList);
                                 }
-                                if (arrayList.isEmpty()){
+                                if (arrayList.isEmpty()) {
                                     recyclerView.setVisibility(View.GONE);
+                                    verticalRecycler.setVisibility(View.GONE);
                                     rootView.findViewById(R.id.layout_no_favourite).setVisibility(View.VISIBLE);
-                                }else {
-                                    recyclerView.setVisibility(View.VISIBLE);
+                                } else {
+                                    if (isVertical) {
+                                        verticalRecycler.setVisibility(View.VISIBLE);
+                                        recyclerView.setVisibility(View.GONE);
+                                    } else {
+                                        recyclerView.setVisibility(View.VISIBLE);
+                                        verticalRecycler.setVisibility(View.GONE);
+                                    }
                                     rootView.findViewById(R.id.layout_no_favourite).setVisibility(View.GONE);
                                 }
                             } catch (JsonSyntaxException e) {
@@ -325,13 +332,13 @@ public class HomePresenter extends BasePresenter<HomeView> {
     public void clearAll() {
         arrayList.clear();
         pageCount = 1;
-        if (adapterWallpaper != null) {
+        if (adapterWallpaper != null && adapterWallpaper.arrayList != null) {
             adapterWallpaper.arrayList.clear();
             adapterWallpaper.notifyDataSetChanged();
         }
-        if (adapterWallpaper != null) {
-            adapterWallpaper.arrayList.clear();
-            adapterWallpaper.notifyDataSetChanged();
+        if (verticalAdapter != null && verticalAdapter.arrayList != null) {
+            verticalAdapter.arrayList.clear();
+            verticalAdapter.notifyDataSetChanged();
         }
         initRecyclerViewHome();
     }
@@ -465,8 +472,12 @@ public class HomePresenter extends BasePresenter<HomeView> {
                             }
                             if (isVertical) {
                                 verticalAdapter.insertData(arrayList);
+                                verticalRecycler.setVisibility(View.VISIBLE);
+                                recyclerView.setVisibility(View.GONE);
                             } else {
                                 adapterWallpaper.insertData(arrayList);
+                                recyclerView.setVisibility(View.VISIBLE);
+                                verticalRecycler.setVisibility(View.GONE);
                             }
                             Constant.arrayListDetail = arrayList;
                             swipeRefreshLayout.setRefreshing(false);

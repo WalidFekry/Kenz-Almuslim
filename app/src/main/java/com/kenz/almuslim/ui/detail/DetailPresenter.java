@@ -568,7 +568,7 @@ public class DetailPresenter extends BasePresenter<DetailView> {
                                                 + "\n"
                                                 + activity.getString(R.string.app_name)
                                                 + " - "
-                                                + "https://t.co/w1AIQWabTc?"
+                                                + "https://play.google.com/store/apps/details?id=com.kenz.almuslim?"
                                                 + activity.getPackageName());
                                         shareIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION); // temp permission for receiving app to read this file
                                         shareIntent.setDataAndType(shareUri, activity.getContentResolver().getType(shareUri));
@@ -598,7 +598,7 @@ public class DetailPresenter extends BasePresenter<DetailView> {
                                                 + "\n"
                                                 + activity.getString(R.string.app_name)
                                                 + " - "
-                                                + "https://t.co/w1AIQWabTc?"
+                                                + "https://play.google.com/store/apps/details?id=com.kenz.almuslim?"
                                                 + activity.getPackageName());
                                         shareIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION); // temp permission for receiving app to read this file
                                         shareIntent.setDataAndType(contentUri, activity.getContentResolver().getType(contentUri));
@@ -617,7 +617,7 @@ public class DetailPresenter extends BasePresenter<DetailView> {
                                             + "\n"
                                             + activity.getString(R.string.app_name)
                                             + " - "
-                                            + "https://t.co/w1AIQWabTc?"
+                                            + "https://play.google.com/store/apps/details?id=com.kenz.almuslim?"
                                             + activity.getPackageName());
                                     messengerIntent.setDataAndType(image, activity.getContentResolver().getType(image));
                                     messengerIntent.setType("image/jpeg");
@@ -698,7 +698,7 @@ public class DetailPresenter extends BasePresenter<DetailView> {
                             + "\n"
                             + activity.getString(R.string.app_name)
                             + " - "
-                            + "https://t.co/w1AIQWabTc?"
+                            + "https://play.google.com/store/apps/details?id=com.kenz.almuslim?"
                             + activity.getPackageName());
                     activity.startActivity(Intent.createChooser(share, activity.getString(R.string.share_image)));
                     break;
@@ -723,7 +723,7 @@ public class DetailPresenter extends BasePresenter<DetailView> {
                             + "\n"
                             + activity.getString(R.string.app_name)
                             + " - "
-                            + "https://t.co/w1AIQWabTc?"
+                            + "https://play.google.com/store/apps/details?id=com.kenz.almuslim?"
                             + activity.getPackageName());
                     whatsappIntent.putExtra(Intent.EXTRA_STREAM, imageUri);
                     whatsappIntent.setType("image/jpeg");
@@ -745,7 +745,7 @@ public class DetailPresenter extends BasePresenter<DetailView> {
                             + "\n"
                             + activity.getString(R.string.app_name)
                             + " - "
-                            + "https://t.co/w1AIQWabTc?"
+                            + "https://play.google.com/store/apps/details?id=com.kenz.almuslim?"
                             + activity.getPackageName());
                     messengerIntent.putExtra(Intent.EXTRA_STREAM, image);
                     messengerIntent.setType("image/jpeg");

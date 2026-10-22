@@ -130,7 +130,7 @@ public class MainActivity extends BaseActivity<MainView, MainPresenter> implemen
                         "تقييم التطبيق ",
                         R.color.gnt_white,
                         R.color.n2,
-                        () -> startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://t.co/w1AIQWabTc")))
+                        () -> startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=com.kenz.almuslim")))
                 )
                 .addButton(
                         "مشاركه التطبيق",
@@ -141,7 +141,7 @@ public class MainActivity extends BaseActivity<MainView, MainPresenter> implemen
                             sendIntent.setAction(Intent.ACTION_SEND);
                             sendIntent.putExtra(Intent.EXTRA_SUBJECT, " تطبيق كنز المسلم");
                             sendIntent.putExtra(Intent.EXTRA_TEXT, "\n" + getResources().getString(R.string.aboutapp) + "\n" +
-                                    "تفضل رابط التطبيق  https://t.co/w1AIQWabTc \n");
+                                    "تفضل رابط التطبيق  https://play.google.com/store/apps/details?id=com.kenz.almuslim \n");
                             sendIntent.setType("text/plain");
                             startActivity(Intent.createChooser(sendIntent, "مشاركه تطبيق كنز المسلم مع الاصدقاء:"));
                         }

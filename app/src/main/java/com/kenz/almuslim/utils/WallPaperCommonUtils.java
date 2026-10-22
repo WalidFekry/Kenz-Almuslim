@@ -134,7 +134,7 @@ public final class WallPaperCommonUtils {
                                             + "\n"
                                             + activity.getString(R.string.app_name)
                                             + " - "
-                                            + "https://t.co/w1AIQWabTc?"
+                                            + "https://play.google.com/store/apps/details?id=com.kenz.almuslim?"
                                             + activity.getPackageName());
                                     activity.startActivity(Intent.createChooser(share, activity.getString(R.string.share_image)));
                                     break;
@@ -156,7 +156,7 @@ public final class WallPaperCommonUtils {
                                             + "\n"
                                             + activity.getString(R.string.app_name)
                                             + " - "
-                                            + "https://t.co/w1AIQWabTc?"
+                                            + "https://play.google.com/store/apps/details?id=com.kenz.almuslim?"
                                             + activity.getPackageName());
                                     whatsappIntent.putExtra(Intent.EXTRA_STREAM, imageUri);
                                     whatsappIntent.setType("image/jpeg");
@@ -179,7 +179,7 @@ public final class WallPaperCommonUtils {
                                             + "\n"
                                             + activity.getString(R.string.app_name)
                                             + " - "
-                                            + "https://t.co/w1AIQWabTc?"
+                                            + "https://play.google.com/store/apps/details?id=com.kenz.almuslim?"
                                             + activity.getPackageName());
                                     messengerIntent.putExtra(Intent.EXTRA_STREAM, image);
                                     messengerIntent.setType("image/jpeg");
@@ -254,7 +254,7 @@ public final class WallPaperCommonUtils {
                             + "\n"
                             + activity.getString(R.string.app_name)
                             + " - "
-                            + "https://t.co/w1AIQWabTc?"
+                            + "https://play.google.com/store/apps/details?id=com.kenz.almuslim?"
                             + activity.getPackageName());
                     activity.startActivity(Intent.createChooser(share, activity.getString(R.string.share_image)));
                     break;
@@ -279,7 +279,7 @@ public final class WallPaperCommonUtils {
                             + "\n"
                             + activity.getString(R.string.app_name)
                             + " - "
-                            + "https://t.co/w1AIQWabTc?"
+                            + "https://play.google.com/store/apps/details?id=com.kenz.almuslim?"
                             + activity.getPackageName());
                     whatsappIntent.putExtra(Intent.EXTRA_STREAM, imageUri);
                     whatsappIntent.setType("image/jpeg");
@@ -301,7 +301,7 @@ public final class WallPaperCommonUtils {
                             + "\n"
                             + activity.getString(R.string.app_name)
                             + " - "
-                            + "https://t.co/w1AIQWabTc?"
+                            + "https://play.google.com/store/apps/details?id=com.kenz.almuslim?"
                             + activity.getPackageName());
                     messengerIntent.putExtra(Intent.EXTRA_STREAM, image);
                     messengerIntent.setType("image/jpeg");

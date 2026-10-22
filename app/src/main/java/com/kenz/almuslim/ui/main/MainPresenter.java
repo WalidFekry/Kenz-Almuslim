@@ -239,7 +239,7 @@ public class MainPresenter extends BasePresenter<MainView> {
                 slidingRootNav.closeMenu(true);
                 Intent sendIntent = new Intent();
                 sendIntent.setAction(Intent.ACTION_SEND);
-                sendIntent.putExtra(Intent.EXTRA_TEXT, activity.getString(R.string.get_more_wall) + "\n" + "https://t.co/w1AIQWabTc?" + activity.getPackageName());
+                sendIntent.putExtra(Intent.EXTRA_TEXT, activity.getString(R.string.get_more_wall) + "\n" + "https://play.google.com/store/apps/details?id=com.kenz.almuslim?" + activity.getPackageName());
                 sendIntent.setType("text/plain");
                 activity.startActivity(sendIntent);
             }
@@ -249,7 +249,7 @@ public class MainPresenter extends BasePresenter<MainView> {
             @Override
             public void onClick(View view) {
                 slidingRootNav.closeMenu(true);
-                Uri uri = Uri.parse("https://t.co/w1AIQWabTc?" + activity.getPackageName());
+                Uri uri = Uri.parse("https://play.google.com/store/apps/details?id=com.kenz.almuslim?" + activity.getPackageName());
                 Intent intent = new Intent(Intent.ACTION_VIEW, uri);
                 activity.startActivity(intent);
             }

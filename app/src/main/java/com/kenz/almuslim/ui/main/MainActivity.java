@@ -137,13 +137,23 @@ public class MainActivity extends BaseActivity<MainView, MainPresenter> implemen
                         R.color.gnt_white,
                         R.color.br,
                         () -> {
+                            String shareMessage = "تطبيق كنز المسلم | Kenz Almuslim \n"
+                                    + "تطبيق إسلامي متميز يحتوي على أجمل الخلفيات الإسلامية، رسائل التفاؤل اليومية، الآيات القرآنية، والأذكار المصممة بدقة عالية HD/4K! 🕌🌸\n\n"
+                                    + "🌟 مميزات التطبيق:\n"
+                                    + "• خلفيات إسلامية ودينية متجددة بدقة عالية.\n"
+                                    + "• رسائل تفاؤل وإشعارات أذكار يومية تنير يومك.\n"
+                                    + "• تعيين الصور كخلفية للشاشة الرئيسية ولشاشة القفل بنقرة واحدة.\n"
+                                    + "• حفظ الصور في الاستوديو ومشاركتها بسهولة مع أصدقائك.\n"
+                                    + "• تصميم عصري مريح للعين مع دعم الوضع الليلي.\n\n"
+                                    + "📲 حمل التطبيق الآن مجاناً وشاركه مع من تحب ليكون صدقة جارية:\n"
+                                    + "https://play.google.com/store/apps/details?id=" + getPackageName();
+
                             Intent sendIntent = new Intent();
                             sendIntent.setAction(Intent.ACTION_SEND);
-                            sendIntent.putExtra(Intent.EXTRA_SUBJECT, " تطبيق كنز المسلم");
-                            sendIntent.putExtra(Intent.EXTRA_TEXT, "\n" + getResources().getString(R.string.aboutapp) + "\n" +
-                                    "تفضل رابط التطبيق  https://play.google.com/store/apps/details?id=com.kenz.almuslim \n");
+                            sendIntent.putExtra(Intent.EXTRA_SUBJECT, "تطبيق كنز المسلم");
+                            sendIntent.putExtra(Intent.EXTRA_TEXT, shareMessage);
                             sendIntent.setType("text/plain");
-                            startActivity(Intent.createChooser(sendIntent, "مشاركه تطبيق كنز المسلم مع الاصدقاء:"));
+                            startActivity(Intent.createChooser(sendIntent, "مشاركة تطبيق كنز المسلم مع الأصدقاء:"));
                         }
                 )
                 .addButton(

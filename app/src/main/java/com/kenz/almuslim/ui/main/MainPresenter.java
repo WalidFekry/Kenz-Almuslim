@@ -206,11 +206,23 @@ public class MainPresenter extends BasePresenter<MainView> {
 
         slidingRootNav.getLayout().findViewById(R.id.menuShare).setOnClickListener(view -> {
             slidingRootNav.closeMenu(true);
+            String shareMessage = "تطبيق كنز المسلم | Kenz Almuslim \n"
+                    + "تطبيق إسلامي متميز يحتوي على أجمل الخلفيات الإسلامية، رسائل التفاؤل اليومية، الآيات القرآنية، والأذكار المصممة بدقة عالية HD/4K! 🕌🌸\n\n"
+                    + "🌟 مميزات التطبيق:\n"
+                    + "• خلفيات إسلامية ودينية متجددة بدقة عالية.\n"
+                    + "• رسائل تفاؤل وإشعارات أذكار يومية تنير يومك.\n"
+                    + "• تعيين الصور كخلفية للشاشة الرئيسية ولشاشة القفل بنقرة واحدة.\n"
+                    + "• حفظ الصور في الاستوديو ومشاركتها بسهولة مع أصدقائك.\n"
+                    + "• تصميم عصري مريح للعين مع دعم الوضع الليلي.\n\n"
+                    + "📲 حمل التطبيق الآن مجاناً وشاركه مع من تحب ليكون صدقة جارية:\n"
+                    + "https://play.google.com/store/apps/details?id=" + activity.getPackageName();
+
             Intent sendIntent = new Intent();
             sendIntent.setAction(Intent.ACTION_SEND);
-            sendIntent.putExtra(Intent.EXTRA_TEXT, activity.getString(R.string.get_more_wall) + "\n" + "https://play.google.com/store/apps/details?id=com.kenz.almuslim");
+            sendIntent.putExtra(Intent.EXTRA_SUBJECT, "تطبيق كنز المسلم");
+            sendIntent.putExtra(Intent.EXTRA_TEXT, shareMessage);
             sendIntent.setType("text/plain");
-            activity.startActivity(sendIntent);
+            activity.startActivity(Intent.createChooser(sendIntent, "مشاركة تطبيق كنز المسلم مع الأصدقاء:"));
         });
 
         slidingRootNav.getLayout().findViewById(R.id.menuRate).setOnClickListener(view -> {

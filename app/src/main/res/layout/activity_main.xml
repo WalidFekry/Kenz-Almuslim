@@ -25,7 +25,7 @@
                 android:id="@+id/collapsingToolbarLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:fitsSystemWindows="true"
+                android:fitsSystemWindows="false"
                 app:layout_scrollFlags="scroll|enterAlways">
 
                 <FrameLayout

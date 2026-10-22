@@ -1,20 +1,22 @@
 package com.kenz.almuslim.ui.main;
 
 import android.Manifest;
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Build;
 import android.view.Gravity;
+import android.view.ViewGroup;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.core.content.ContextCompat;
+import androidx.core.graphics.Insets;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsCompat;
 import androidx.databinding.DataBindingUtil;
-
 
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.kenz.almuslim.R;
@@ -24,22 +26,16 @@ import com.kenz.almuslim.data.utils.SharedPref;
 import com.kenz.almuslim.databinding.ActivityMainBinding;
 import com.kenz.almuslim.ui.home.HomeFragment;
 
-
 import libs.mjn.prettydialog.PrettyDialog;
-import libs.mjn.prettydialog.PrettyDialogCallback;
 
 import static androidx.fragment.app.FragmentStatePagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT;
 
 public class MainActivity extends BaseActivity<MainView, MainPresenter> implements MainView {
 
     public ActivityMainBinding binding;
-    String[] permission = new String[]{
-            Manifest.permission.POST_NOTIFICATIONS
-    };
-    boolean isPermission = false;
+    private ViewPagerAdapter viewPagerAdapter;
     private final ActivityResultLauncher<String> requestPermissionLauncherNotification =
             registerForActivityResult(new ActivityResultContracts.RequestPermission(), isGranted -> {
-                isPermission = isGranted;
             });
 
     @Override
@@ -61,57 +57,102 @@ public class MainActivity extends BaseActivity<MainView, MainPresenter> implemen
     protected void onStarting() {
         binding = DataBindingUtil.setContentView(this, getLayoutId());
         presenter.initView(this, binding, getSupportFragmentManager());
+
+        setupEdgeToEdgeInsets();
         initViewPager();
+        setupBackNavigation();
+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            cheakNotificationPermission();
+            checkNotificationPermission();
         }
     }
 
-    private void cheakNotificationPermission() {
-        if (!isPermission) {
-            requestPermissionsNotfication();
+    private void setupEdgeToEdgeInsets() {
+        ViewCompat.setOnApplyWindowInsetsListener(binding.coordinator, (v, insets) -> {
+            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
+
+            // Adjust AppBar padding to account for status bar and notch height
+            binding.appBarLayout.setPadding(
+                    binding.appBarLayout.getPaddingLeft(),
+                    systemBars.top,
+                    binding.appBarLayout.getPaddingRight(),
+                    binding.appBarLayout.getPaddingBottom()
+            );
+
+            // Adjust BottomNavigation margin to sit above system navigation bar / gesture bar
+            if (binding.bottomNavigation.getLayoutParams() instanceof ViewGroup.MarginLayoutParams) {
+                ViewGroup.MarginLayoutParams lp = (ViewGroup.MarginLayoutParams) binding.bottomNavigation.getLayoutParams();
+                lp.bottomMargin = systemBars.bottom;
+                binding.bottomNavigation.setLayoutParams(lp);
+            }
+
+            return insets;
+        });
+    }
+
+    private void checkNotificationPermission() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            if (ContextCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
+                requestPermissionLauncherNotification.launch(Manifest.permission.POST_NOTIFICATIONS);
+            }
         }
     }
-
-    private void requestPermissionsNotfication() {
-        if (ContextCompat.checkSelfPermission(this, permission[0]) == PackageManager.PERMISSION_GRANTED) {
-            isPermission = true;
-        } else {
-            requestPermissionLauncherNotification.launch(permission[0]);
-            showPermissionDialog();
-        }
-    }
-
-    private void showPermissionDialog() {
-        new AlertDialog.Builder(this)
-                .setMessage("من فضلك قم بالموافقة على الاشعارات لكي تصلك رسائل التفاؤل والإقتباسات من التطبيق ..")
-                .setPositiveButton("الاعدادات", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        Intent intent = new Intent();
-                        intent.setAction(android.provider.Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
-                        Uri uri = Uri.fromParts("package", getPackageName(), null);
-                        intent.setData(uri);
-                        startActivity(intent);
-                        dialog.dismiss();
-                    }
-                })
-                .setNegativeButton("إلغاء", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                    }
-                })
-                .show();
-    }
-
-    private ViewPagerAdapter viewPagerAdapter;
 
     private void initViewPager() {
         viewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager(), BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
         binding.viewPager.setAdapter(viewPagerAdapter);
         binding.viewPager.setCurrentItem(2);
         binding.viewPager.setOffscreenPageLimit(viewPagerAdapter.getCount());
+    }
+
+    private void setupBackNavigation() {
+        getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
+            @Override
+            public void handleOnBackPressed() {
+                showExitDialog();
+            }
+        });
+    }
+
+    private void showExitDialog() {
+        final PrettyDialog pDialog = new PrettyDialog(this);
+        pDialog.setCanceledOnTouchOutside(false);
+        pDialog.setTitle("هل تود الخروج من التطبيق ؟")
+                .setMessage("ما رأيك بتقييم التطبيق إذا نال اعجابك !")
+                .setIcon(R.mipmap.ic_launcher)
+                .setAnimationEnabled(true)
+                .setMessageColor(R.color.btn_bg)
+                .setTitleColor(R.color.b1)
+                .setIconTint(R.color.pdlg_color_white)
+                .setGravity(Gravity.DISPLAY_CLIP_HORIZONTAL)
+                .setTypeface(Typeface.createFromAsset(getAssets(), "jazeera.ttf"))
+                .addButton(
+                        "تقييم التطبيق ",
+                        R.color.gnt_white,
+                        R.color.n2,
+                        () -> startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://t.co/w1AIQWabTc")))
+                )
+                .addButton(
+                        "مشاركه التطبيق",
+                        R.color.gnt_white,
+                        R.color.br,
+                        () -> {
+                            Intent sendIntent = new Intent();
+                            sendIntent.setAction(Intent.ACTION_SEND);
+                            sendIntent.putExtra(Intent.EXTRA_SUBJECT, " تطبيق كنز المسلم");
+                            sendIntent.putExtra(Intent.EXTRA_TEXT, "\n" + getResources().getString(R.string.aboutapp) + "\n" +
+                                    "تفضل رابط التطبيق  https://t.co/w1AIQWabTc \n");
+                            sendIntent.setType("text/plain");
+                            startActivity(Intent.createChooser(sendIntent, "مشاركه تطبيق كنز المسلم مع الاصدقاء:"));
+                        }
+                )
+                .addButton(
+                        "الخروج من التطبيق",
+                        R.color.gnt_white,
+                        R.color.red_bg_light,
+                        this::finish
+                )
+                .show();
     }
 
     @Override
@@ -138,68 +179,9 @@ public class MainActivity extends BaseActivity<MainView, MainPresenter> implemen
 
     }
 
-
-    @Override
-    public void onBackPressed() {
-        final PrettyDialog pDialog = new PrettyDialog(this);
-        pDialog.setCanceledOnTouchOutside(false);
-        pDialog.setTitle("هل تود الخروج من التطبيق ؟")
-                .setMessage("ما رأيك بتقييم التطبيق إذا نال اعجابك !").
-                setIcon(R.mipmap.ic_launcher)
-                .setAnimationEnabled(true)
-                .setMessageColor(R.color.btn_bg)
-                .setTitleColor(R.color.b1)
-                .setIconTint(R.color.pdlg_color_white)
-                .setGravity(Gravity.DISPLAY_CLIP_HORIZONTAL)
-                .setTypeface(Typeface.createFromAsset(getAssets(), "jazeera.ttf"))
-                .addButton(
-                        "تقييم التطبيق ",
-                        R.color.gnt_white,
-                        R.color.n2,
-                        new PrettyDialogCallback() {
-                            @Override
-                            public void onClick() {
-                                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://t.co/w1AIQWabTc")));
-                            }
-                        }
-                )
-
-                .addButton(
-                        "مشاركه التطبيق",
-                        R.color.gnt_white,
-                        R.color.br,
-                        new PrettyDialogCallback() {
-                            @Override
-                            public void onClick() {
-                                Intent sendIntent = new Intent();
-                                sendIntent.setAction(Intent.ACTION_SEND);
-                                sendIntent.putExtra(Intent.EXTRA_SUBJECT, " تطبيق كنز المسلم");
-                                sendIntent.putExtra(Intent.EXTRA_TEXT, "\n" + getResources().getString(R.string.aboutapp) + "\n" +
-                                        "تفضل رابط التطبيق  https://t.co/w1AIQWabTc \n");
-                                sendIntent.setType("text/plain");
-                                startActivity(Intent.createChooser(sendIntent, "مشاركه تطبيق كنز المسلم مع الاصدقاء:"));
-                            }
-                        }
-                )
-                .addButton(
-                        "الخروج من التطبيق",
-                        R.color.gnt_white,
-                        R.color.red_bg_light,
-                        new PrettyDialogCallback() {
-                            @Override
-                            public void onClick() {
-                                finish();
-                            }
-                        }
-                )
-                .show();
-    }
-
     public void exitCollapsed() {
         presenter.exitCollapsed();
     }
-
-
 
     public void onChangeCheckBox(boolean isChecked) {
         binding.changeOrientation.setChecked(isChecked);
@@ -207,21 +189,21 @@ public class MainActivity extends BaseActivity<MainView, MainPresenter> implemen
 
     @Override
     public void onFilterChosen(String filter) {
-        if (viewPagerAdapter.fragmentReferences.get(2).get() instanceof HomeFragment) {
+        if (viewPagerAdapter != null && viewPagerAdapter.fragmentReferences.get(2) != null && viewPagerAdapter.fragmentReferences.get(2).get() instanceof HomeFragment) {
             ((HomeFragment) viewPagerAdapter.fragmentReferences.get(2).get()).onFilterNameChosen(filter);
         }
     }
 
     @Override
     public void showHorizontal() {
-        if (viewPagerAdapter.fragmentReferences.get(2).get() instanceof HomeFragment) {
+        if (viewPagerAdapter != null && viewPagerAdapter.fragmentReferences.get(2) != null && viewPagerAdapter.fragmentReferences.get(2).get() instanceof HomeFragment) {
             ((HomeFragment) viewPagerAdapter.fragmentReferences.get(2).get()).onShowHorizontal();
         }
     }
 
     @Override
     public void showVertical() {
-        if (viewPagerAdapter.fragmentReferences.get(2).get() instanceof HomeFragment) {
+        if (viewPagerAdapter != null && viewPagerAdapter.fragmentReferences.get(2) != null && viewPagerAdapter.fragmentReferences.get(2).get() instanceof HomeFragment) {
             ((HomeFragment) viewPagerAdapter.fragmentReferences.get(2).get()).onShowVertical();
         }
     }

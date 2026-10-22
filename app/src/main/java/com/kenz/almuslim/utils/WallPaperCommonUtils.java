@@ -2,6 +2,7 @@ package com.kenz.almuslim.utils;
 
 import android.annotation.SuppressLint;
 import android.app.WallpaperManager;
+import android.content.ActivityNotFoundException;
 import android.content.ComponentName;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -14,8 +15,8 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.FileProvider;
 
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.kenz.almuslim.R;
@@ -44,6 +45,10 @@ public final class WallPaperCommonUtils {
 
     @Contract(pure = true)
     public static void wallpaperTask(@NotNull String what, AppCompatActivity activity, int position) {
+        if (position < 0 || position >= Constant.arrayListDetail.size()) {
+            return;
+        }
+
         if (what.equals("DOWNLOAD")) {
             shareImage("download", activity, position);
             return;
@@ -59,31 +64,34 @@ public final class WallPaperCommonUtils {
                         .setDirectory(activity.getExternalCacheDir() + File.separator + "set_wallpaper" + File.separator)
                         .setListener((directory, filename) -> {
                             SharedPref.getSharedPref(activity).write("set_wallpaper", directory + filename);
-                            Intent intent;
                             try {
                                 WallpaperManager.getInstance(activity).clear();
                             } catch (IOException e) {
                                 e.printStackTrace();
                             }
                             try {
-                                intent = new Intent(WallpaperManager.ACTION_CHANGE_LIVE_WALLPAPER);
+                                Intent intent = new Intent(WallpaperManager.ACTION_CHANGE_LIVE_WALLPAPER);
                                 intent.putExtra(WallpaperManager.EXTRA_LIVE_WALLPAPER_COMPONENT, new ComponentName(activity, activity.getPackageName() + ".data.services.GifWallpaperService"));
                                 intent.putExtra("SET_LOCKSCREEN_WALLPAPER", true);
                                 activity.startActivity(intent);
                             } catch (Exception e) {
                                 e.printStackTrace();
-                                Toast.makeText(activity, "هاتفكم لايدعم هذه الخدمة", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(activity, "هاتفكم لا يدعم هذه الخدمة", Toast.LENGTH_SHORT).show();
                             }
                         })
                         .download();
+                break;
             case METHOD_SHARE:
                 shareImage("share", activity, position);
                 break;
         }
     }
 
-
     public static void shareImage(String type, AppCompatActivity activity, int position) {
+        if (position < 0 || position >= Constant.arrayListDetail.size()) {
+            return;
+        }
+
         String shareImage = null;
         if (CommonUtils.isNetworkConnected(activity)) {
             shareImage = Constant.arrayListDetail.get(position).wallpaper_image_original;
@@ -91,223 +99,128 @@ public final class WallPaperCommonUtils {
             shareFromLocalImage(type, activity, position);
             return;
         }
+
+        if (shareImage == null || shareImage.isEmpty()) {
+            shareFromLocalImage(type, activity, position);
+            return;
+        }
+
         String finalShareImage = shareImage;
         Picasso.get()
                 .load(shareImage)
                 .into(new Target() {
                     @Override
                     public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
-                        String root = null;
-                        switch (type) {
-                            case "whatsapp":
-                            case "messenger":
-                            case "share":
-                                root = activity.getExternalCacheDir() + File.separator;
-                                break;
-                            case "download":
-                            case "wallpaper":
-                                root = Environment.getExternalStorageDirectory()
-                                        .getAbsolutePath()
-                                        + File.separator
-                                        + activity.getString(R.string.download_folder)
-                                        + File.separator;
-                                File rootFile = new File(root);
-                                if (!rootFile.exists()) {
-                                    rootFile.mkdir();
-                                }
-                                break;
-                        }
-                        final File directory = new File(root, finalShareImage.substring(finalShareImage.lastIndexOf("/")));
-                        try {
-                            if (!directory.exists()) {
-                                FileOutputStream out = new FileOutputStream(directory);
-                                bitmap.compress(Bitmap.CompressFormat.JPEG, 90, out);
-                                out.flush();
-                                out.close();
-                            }
-                            switch (type) {
-                                case "share":
-                                    Intent share = new Intent(Intent.ACTION_SEND);
-                                    share.setType("image/*");
-                                    share.putExtra(Intent.EXTRA_STREAM, Uri.parse("file://" + directory));
-                                    share.putExtra(Intent.EXTRA_TEXT, activity.getString(R.string.get_more_wall)
-                                            + "\n"
-                                            + activity.getString(R.string.app_name)
-                                            + " - "
-                                            + "https://play.google.com/store/apps/details?id=com.kenz.almuslim?"
-                                            + activity.getPackageName());
-                                    activity.startActivity(Intent.createChooser(share, activity.getString(R.string.share_image)));
-                                    break;
-                                case "download":
-                                    MediaScannerConnection.scanFile(activity, new String[]{directory.getAbsolutePath()},
-                                            null,
-                                            (path, uri) -> {
-
-                                            });
-                                    Toast.makeText(activity, "تم تحميل الصورة: " + directory, Toast.LENGTH_SHORT).show();
-                                    break;
-
-                                case "whatsapp":
-                                    Uri imageUri = Uri.parse(directory.getAbsolutePath());
-                                    Intent whatsappIntent = new Intent(Intent.ACTION_SEND);
-                                    whatsappIntent.setType("text/plain");
-                                    whatsappIntent.setPackage("com.whatsapp");
-                                    whatsappIntent.putExtra(Intent.EXTRA_TEXT, activity.getString(R.string.get_more_wall)
-                                            + "\n"
-                                            + activity.getString(R.string.app_name)
-                                            + " - "
-                                            + "https://play.google.com/store/apps/details?id=com.kenz.almuslim?"
-                                            + activity.getPackageName());
-                                    whatsappIntent.putExtra(Intent.EXTRA_STREAM, imageUri);
-                                    whatsappIntent.setType("image/jpeg");
-                                    whatsappIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-                                    try {
-                                        activity.startActivity(whatsappIntent);
-                                    } catch (android.content.ActivityNotFoundException ex) {
-                                        activity.runOnUiThread(() -> {
-                                            Toast.makeText(activity, activity.getString(R.string.please_install_wtsp), Toast.LENGTH_SHORT).show();
-                                        });
-                                    }
-                                    break;
-
-                                case "messenger":
-                                    Uri image = Uri.fromFile(directory);
-                                    Intent messengerIntent = new Intent(Intent.ACTION_SEND);
-                                    messengerIntent.setType("text/plain");
-                                    messengerIntent.setPackage("com.facebook.orca");
-                                    messengerIntent.putExtra(Intent.EXTRA_TEXT, activity.getString(R.string.get_more_wall)
-                                            + "\n"
-                                            + activity.getString(R.string.app_name)
-                                            + " - "
-                                            + "https://play.google.com/store/apps/details?id=com.kenz.almuslim?"
-                                            + activity.getPackageName());
-                                    messengerIntent.putExtra(Intent.EXTRA_STREAM, image);
-                                    messengerIntent.setType("image/jpeg");
-                                    try {
-                                        activity.startActivity(messengerIntent);
-                                    } catch (android.content.ActivityNotFoundException ex) {
-                                        activity.runOnUiThread(() -> Toast.makeText(activity,
-                                                activity.getString(R.string.please_install_messenger),
-                                                Toast.LENGTH_SHORT).show());
-                                    }
-                                    break;
-
-                                case "wallpaper":
-                                    showBottomSheetDialog(bitmap, activity);
-                                    break;
-                            }
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                            Toast.makeText(activity, "an error occurred, please try again later", Toast.LENGTH_SHORT).show();
-                        }
+                        handleImageAction(type, activity, bitmap, finalShareImage.substring(finalShareImage.lastIndexOf("/") + 1));
                     }
 
                     @Override
                     public void onBitmapFailed(Exception e, Drawable errorDrawable) {
-
+                        Toast.makeText(activity, "حدث خطأ أثناء تحميل الصورة", Toast.LENGTH_SHORT).show();
                     }
 
                     @Override
                     public void onPrepareLoad(Drawable placeHolderDrawable) {
-
                     }
                 });
     }
 
-
     public static void shareFromLocalImage(@NotNull String type, AppCompatActivity activity, int position) {
-        Bitmap bitmap = null;
-        bitmap = Constant.arrayListDetail.get(position).imageOriginal;
-        String root = null;
-        switch (type) {
-            case "whatsapp":
-            case "messenger":
-            case "share":
-                root = activity.getExternalCacheDir() + File.separator;
-                break;
-            case "download":
-            case "wallpaper":
-                root = Environment.getExternalStorageDirectory().getAbsolutePath()
-                        + File.separator
-                        + activity.getString(R.string.download_folder)
-                        + File.separator;
-                File rootFile = new File(root);
-                if (!rootFile.exists()) {
-                    rootFile.mkdir();
-                }
-                break;
+        if (position < 0 || position >= Constant.arrayListDetail.size()) {
+            return;
         }
-        final File directory = new File(root, "Temp_Image_name.png");
-        try {
+        Bitmap bitmap = Constant.arrayListDetail.get(position).imageOriginal;
+        if (bitmap == null) {
+            Toast.makeText(activity, "الصورة غير متوفرة", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        handleImageAction(type, activity, bitmap, "Image_" + System.currentTimeMillis() + ".png");
+    }
+
+    private static void handleImageAction(String type, AppCompatActivity activity, Bitmap bitmap, String fileName) {
+        File directory;
+        if ("download".equals(type) || "wallpaper".equals(type)) {
+            File publicPicturesFolder = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
+            directory = new File(publicPicturesFolder, activity.getString(R.string.download_folder));
             if (!directory.exists()) {
-                FileOutputStream out = new FileOutputStream(directory);
-                bitmap.compress(Bitmap.CompressFormat.PNG, 90, out);
+                directory.mkdirs();
+            }
+        } else {
+            directory = new File(activity.getExternalCacheDir(), "shared_images");
+            if (!directory.exists()) {
+                directory.mkdirs();
+            }
+        }
+
+        File imageFile = new File(directory, fileName.endsWith(".png") || fileName.endsWith(".jpg") || fileName.endsWith(".jpeg") ? fileName : fileName + ".jpg");
+
+        try {
+            if (!imageFile.exists()) {
+                FileOutputStream out = new FileOutputStream(imageFile);
+                bitmap.compress(Bitmap.CompressFormat.JPEG, 95, out);
                 out.flush();
                 out.close();
             }
+
+            Uri contentUri = FileProvider.getUriForFile(activity, activity.getPackageName() + ".fileprovider", imageFile);
+
             switch (type) {
                 case "share":
-                    Intent share = new Intent(Intent.ACTION_SEND);
-                    share.setType("image/*");
-                    share.putExtra(Intent.EXTRA_STREAM, Uri.parse("file://" + directory));
-                    share.putExtra(Intent.EXTRA_TEXT, activity.getString(R.string.get_more_wall)
+                    Intent shareIntent = new Intent(Intent.ACTION_SEND);
+                    shareIntent.setType("image/jpeg");
+                    shareIntent.putExtra(Intent.EXTRA_STREAM, contentUri);
+                    shareIntent.putExtra(Intent.EXTRA_TEXT, activity.getString(R.string.get_more_wall)
                             + "\n"
                             + activity.getString(R.string.app_name)
                             + " - "
-                            + "https://play.google.com/store/apps/details?id=com.kenz.almuslim?"
+                            + "https://play.google.com/store/apps/details?id="
                             + activity.getPackageName());
-                    activity.startActivity(Intent.createChooser(share, activity.getString(R.string.share_image)));
+                    shareIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                    activity.startActivity(Intent.createChooser(shareIntent, activity.getString(R.string.share_image)));
                     break;
-                case "download":
-                    MediaScannerConnection.scanFile(activity, new String[]{directory.getAbsolutePath()},
-                            null,
-                            new MediaScannerConnection.OnScanCompletedListener() {
-                                @Override
-                                public void onScanCompleted(String path, Uri uri) {
 
-                                }
-                            });
-                    Toast.makeText(activity, "Downloaded at: " + directory, Toast.LENGTH_SHORT).show();
+                case "download":
+                    MediaScannerConnection.scanFile(activity, new String[]{imageFile.getAbsolutePath()},
+                            new String[]{"image/jpeg"},
+                            (path, uri) -> activity.runOnUiThread(() ->
+                                    Toast.makeText(activity, "تم حفظ الصورة بنجاح في الاستوديو", Toast.LENGTH_SHORT).show()));
                     break;
 
                 case "whatsapp":
-                    Uri imageUri = Uri.parse(directory.getAbsolutePath());
                     Intent whatsappIntent = new Intent(Intent.ACTION_SEND);
-                    whatsappIntent.setType("text/plain");
+                    whatsappIntent.setType("image/jpeg");
                     whatsappIntent.setPackage("com.whatsapp");
                     whatsappIntent.putExtra(Intent.EXTRA_TEXT, activity.getString(R.string.get_more_wall)
                             + "\n"
                             + activity.getString(R.string.app_name)
                             + " - "
-                            + "https://play.google.com/store/apps/details?id=com.kenz.almuslim?"
+                            + "https://play.google.com/store/apps/details?id="
                             + activity.getPackageName());
-                    whatsappIntent.putExtra(Intent.EXTRA_STREAM, imageUri);
-                    whatsappIntent.setType("image/jpeg");
+                    whatsappIntent.putExtra(Intent.EXTRA_STREAM, contentUri);
                     whatsappIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
                     try {
                         activity.startActivity(whatsappIntent);
-                    } catch (android.content.ActivityNotFoundException ex) {
+                    } catch (ActivityNotFoundException ex) {
                         activity.runOnUiThread(() ->
                                 Toast.makeText(activity, activity.getString(R.string.please_install_wtsp), Toast.LENGTH_SHORT).show());
                     }
                     break;
 
                 case "messenger":
-                    Uri image = Uri.fromFile(directory);
                     Intent messengerIntent = new Intent(Intent.ACTION_SEND);
-                    messengerIntent.setType("text/plain");
+                    messengerIntent.setType("image/jpeg");
                     messengerIntent.setPackage("com.facebook.orca");
                     messengerIntent.putExtra(Intent.EXTRA_TEXT, activity.getString(R.string.get_more_wall)
                             + "\n"
                             + activity.getString(R.string.app_name)
                             + " - "
-                            + "https://play.google.com/store/apps/details?id=com.kenz.almuslim?"
+                            + "https://play.google.com/store/apps/details?id="
                             + activity.getPackageName());
-                    messengerIntent.putExtra(Intent.EXTRA_STREAM, image);
-                    messengerIntent.setType("image/jpeg");
+                    messengerIntent.putExtra(Intent.EXTRA_STREAM, contentUri);
+                    messengerIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
                     try {
                         activity.startActivity(messengerIntent);
-                    } catch (android.content.ActivityNotFoundException ex) {
+                    } catch (ActivityNotFoundException ex) {
                         activity.runOnUiThread(() -> Toast.makeText(activity,
                                 activity.getString(R.string.please_install_messenger),
                                 Toast.LENGTH_SHORT).show());
@@ -320,10 +233,9 @@ public final class WallPaperCommonUtils {
             }
         } catch (IOException e) {
             e.printStackTrace();
-            Toast.makeText(activity, "an error occurred, please try again later", Toast.LENGTH_SHORT).show();
+            Toast.makeText(activity, "حدث خطأ، يرجى المحاولة لاحقاً", Toast.LENGTH_SHORT).show();
         }
     }
-
 
     public static void showBottomSheetDialog(final Bitmap bitmap, @NotNull AppCompatActivity activity) {
         @SuppressLint("InflateParams")
@@ -354,60 +266,95 @@ public final class WallPaperCommonUtils {
     }
 
     public static void setWallpaper(String type, AppCompatActivity activity, Bitmap bmImg) {
-        WallpaperManager wpm = WallpaperManager.getInstance(activity.getApplicationContext());
-        try {
-            wpm.setWallpaperOffsetSteps(0, 0);
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                switch (type) {
-                    case "HOME":
-                        wpm.setBitmap(bmImg, null, true, WallpaperManager.FLAG_SYSTEM);
-                        break;
-                    case "LOCK":
-                        wpm.setBitmap(bmImg, null, true, WallpaperManager.FLAG_LOCK);
-                        break;
-                    case "BOTH":
-                        wpm.setBitmap(bmImg, null, true, WallpaperManager.FLAG_LOCK);
-                        wpm.setBitmap(bmImg, null, true, WallpaperManager.FLAG_SYSTEM);
-                        break;
+        new Thread(() -> {
+            WallpaperManager wpm = WallpaperManager.getInstance(activity.getApplicationContext());
+            try {
+                wpm.setWallpaperOffsetSteps(0, 0);
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                    switch (type) {
+                        case "HOME":
+                            wpm.setBitmap(bmImg, null, true, WallpaperManager.FLAG_SYSTEM);
+                            break;
+                        case "LOCK":
+                            wpm.setBitmap(bmImg, null, true, WallpaperManager.FLAG_LOCK);
+                            break;
+                        case "BOTH":
+                            wpm.setBitmap(bmImg, null, true, WallpaperManager.FLAG_SYSTEM | WallpaperManager.FLAG_LOCK);
+                            break;
+                    }
+                } else {
+                    wpm.setBitmap(bmImg);
                 }
-            } else {
-                wpm.setBitmap(bmImg);
+                activity.runOnUiThread(() -> {
+                    try {
+                        DialogDone dialogDone = DialogDone.getInstance(activity.getString(R.string.image_set_done), activity.getString(R.string.button_ok));
+                        dialogDone.setOnOkClickListener(dialogDone::dismiss);
+                        dialogDone.show(activity.getSupportFragmentManager(), DialogDone.TAG);
+                    } catch (Exception e) {
+                        Toast.makeText(activity, activity.getString(R.string.image_set_done), Toast.LENGTH_SHORT).show();
+                    }
+                });
+            } catch (Exception e) {
+                e.printStackTrace();
+                activity.runOnUiThread(() -> new SweetAlertDialog(activity, SweetAlertDialog.ERROR_TYPE)
+                        .setTitleText("حدث خطأ ما في عملية تعيين الصورة")
+                        .setConfirmText("حسنا")
+                        .setConfirmClickListener(SweetAlertDialog::dismiss)
+                        .show());
             }
-            DialogDone dialogDone = DialogDone.getInstance(activity.getString(R.string.image_set_done), activity.getString(R.string.button_ok));
-            dialogDone.setOnOkClickListener(dialogDone::dismiss);
-            dialogDone.show(activity.getSupportFragmentManager(), DialogDone.TAG);
-        } catch (Exception e) {
-            e.printStackTrace();
-            new SweetAlertDialog(activity, SweetAlertDialog.ERROR_TYPE)
-                    .setTitleText("حدث خطأ ما في عملية تعيين الصورة")
-                    .setConfirmText("حسنا")
-                    .setConfirmClickListener(sweetAlertDialog -> activity.finish())
-                    .show();
+        }).start();
+    }
+
+    public static void cropWallpaper(@NotNull AppCompatActivity activity, int position) {
+        if (position < 0 || position >= Constant.arrayListDetail.size()) {
+            return;
+        }
+
+        String imageUrl = Constant.arrayListDetail.get(position).wallpaper_image_original;
+        if (CommonUtils.isNetworkConnected(activity) && imageUrl != null && !imageUrl.isEmpty()) {
+            Picasso.get().load(imageUrl).into(new Target() {
+                @Override
+                public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
+                    startCropWithBitmap(activity, bitmap);
+                }
+
+                @Override
+                public void onBitmapFailed(Exception e, Drawable errorDrawable) {
+                    Toast.makeText(activity, "فشل تحميل الصورة للقص", Toast.LENGTH_SHORT).show();
+                }
+
+                @Override
+                public void onPrepareLoad(Drawable placeHolderDrawable) {
+                }
+            });
+        } else {
+            Bitmap bitmap = Constant.arrayListDetail.get(position).imageOriginal;
+            if (bitmap != null) {
+                startCropWithBitmap(activity, bitmap);
+            }
         }
     }
 
+    private static void startCropWithBitmap(AppCompatActivity activity, Bitmap bitmap) {
+        try {
+            File sourceFile = new File(activity.getCacheDir(), "source_crop.png");
+            FileOutputStream out = new FileOutputStream(sourceFile);
+            bitmap.compress(Bitmap.CompressFormat.PNG, 100, out);
+            out.flush();
+            out.close();
 
-    public static void cropWallpaper(@NotNull AppCompatActivity activity, int position) {
-        Uri source = Uri.parse(Constant.arrayListDetail.get(position).wallpaper_image_original);
-        File dest = new File(activity.getApplicationContext().getCacheDir(), "cropped");
-        //noinspection ResultOfMethodCallIgnored
-        dest.mkdirs();
-        Uri destination = Uri.fromFile(new File(activity.getApplicationContext().getCacheDir(), "cropped/image.png"));
-        UCrop uCrop = UCrop.of(source, destination);
-        uCrop = basisConfig(uCrop);
-        uCrop = advancedConfig(uCrop);
-        uCrop.start(activity);
+            File destFolder = new File(activity.getCacheDir(), "cropped");
+            destFolder.mkdirs();
+            Uri destination = Uri.fromFile(new File(destFolder, "image.png"));
+
+            UCrop uCrop = UCrop.of(Uri.fromFile(sourceFile), destination);
+            uCrop = uCrop.useSourceImageAspectRatio();
+            UCrop.Options options = new UCrop.Options();
+            options.setCompressionFormat(Bitmap.CompressFormat.PNG);
+            uCrop.withOptions(options).start(activity);
+        } catch (Exception e) {
+            e.printStackTrace();
+            Toast.makeText(activity, "حدث خطأ أثناء إعداد الصورة للقص", Toast.LENGTH_SHORT).show();
+        }
     }
-
-
-    public static UCrop basisConfig(@NonNull UCrop uCrop) {
-        return uCrop.useSourceImageAspectRatio();
-    }
-
-    public static UCrop advancedConfig(@NonNull UCrop uCrop) {
-        UCrop.Options options = new UCrop.Options();
-        options.setCompressionFormat(Bitmap.CompressFormat.PNG);
-        return uCrop.withOptions(options);
-    }
-
 }

@@ -101,7 +101,7 @@ public class MainActivity extends BaseActivity<MainView, MainPresenter> implemen
     private void initViewPager() {
         viewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager(), BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
         binding.viewPager.setAdapter(viewPagerAdapter);
-        binding.viewPager.setCurrentItem(2);
+        binding.viewPager.setCurrentItem(3);
         binding.viewPager.setOffscreenPageLimit(viewPagerAdapter.getCount());
     }
 

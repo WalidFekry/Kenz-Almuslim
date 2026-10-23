@@ -109,7 +109,8 @@ public class MainPresenter extends BasePresenter<MainView> {
         binding.bottomNavigation.addButton("", R.drawable.ic_quotes);
         binding.bottomNavigation.addButton("", R.drawable.ic_nav_favourtie);
         binding.bottomNavigation.showIconOnly();
-        binding.bottomNavigation.setSelectedItem(-1);
+        binding.bottomNavigation.setSelectedItem(2);
+        binding.toolbarTitle.setText("اقتباسات");
         binding.bottomNavigation.setButtonClickListener(new NavigationClickListner() {
             @Override
             public void onCentreButtonClick() {

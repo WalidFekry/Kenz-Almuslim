@@ -23,7 +23,7 @@ public class ModelQuote {
     public ModelQuote(int id, String title, String createdAt, String imageUrl) {
         this.id = id;
         this.title = title;
-        this.createdAt = createdAt;
+        this.createdAt = formatDateOnly(createdAt);
         this.imageUrl = imageUrl;
         this.isSaved = false;
     }
@@ -31,8 +31,22 @@ public class ModelQuote {
     public ModelQuote(int id, String title, String createdAt, String imageUrl, boolean isSaved) {
         this.id = id;
         this.title = title;
-        this.createdAt = createdAt;
+        this.createdAt = formatDateOnly(createdAt);
         this.imageUrl = imageUrl;
         this.isSaved = isSaved;
+    }
+
+    public static String formatDateOnly(String rawDate) {
+        if (rawDate == null || rawDate.trim().isEmpty()) {
+            return "";
+        }
+        String dateStr = rawDate.trim();
+        if (dateStr.contains(" ")) {
+            return dateStr.split(" ")[0];
+        }
+        if (dateStr.length() >= 10) {
+            return dateStr.substring(0, 10);
+        }
+        return dateStr;
     }
 }

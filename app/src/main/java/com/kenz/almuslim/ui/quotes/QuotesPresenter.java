@@ -37,6 +37,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
+import java.util.Collections;
 
 public class QuotesPresenter extends BasePresenter<QuotesView> {
 
@@ -94,6 +95,9 @@ public class QuotesPresenter extends BasePresenter<QuotesView> {
                     fetchedList.add(new ModelQuote(id, title, createdAt, imageUrl, isSaved));
                 }
 
+                // Reverse the list received from the API
+                Collections.reverse(fetchedList);
+
                 quotesList = fetchedList;
                 dbHandler.cacheQuotes(quotesList);
 
@@ -116,12 +120,18 @@ public class QuotesPresenter extends BasePresenter<QuotesView> {
 
     private void loadOfflineCachedQuotes() {
         ArrayList<ModelQuote> cached = dbHandler.getCachedQuotes();
+        if (cached == null || cached.isEmpty()) {
+            cached = dbHandler.getAllSavedQuotes();
+        }
+
         if (getMvpView() != null) {
             getMvpView().showLoading(false);
             if (cached != null && !cached.isEmpty()) {
+                // Display offline cached / saved quotes in random order
+                Collections.shuffle(cached);
                 quotesList = cached;
                 getMvpView().showQuotes(quotesList);
-                getMvpView().showToast("تصفح الوضع الأوفلاين (الرسائل المحفوظة مؤقتاً)");
+                getMvpView().showToast("تصفح الوضع الأوفلاين (رسائل عشوائية)");
             } else {
                 getMvpView().showEmptyOrOfflineView();
             }

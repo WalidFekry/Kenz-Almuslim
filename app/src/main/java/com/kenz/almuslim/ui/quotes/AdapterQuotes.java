@@ -51,7 +51,7 @@ public class AdapterQuotes extends RecyclerView.Adapter<AdapterQuotes.QuoteViewH
     public void onBindViewHolder(@NonNull QuoteViewHolder holder, int position) {
         ModelQuote quote = arrayList.get(position);
 
-        holder.tvBadge.setText("رسالة #" + quote.id);
+        holder.tvBadge.setText("رسالة " + quote.id + "#" );
         holder.tvDate.setText(quote.createdAt != null ? quote.createdAt : "");
         holder.tvText.setText(quote.title != null ? quote.title : "");
 

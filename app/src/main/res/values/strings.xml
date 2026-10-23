@@ -26,7 +26,6 @@
     <string name="last_wallpapers">أخر الصور</string>
     <string name="premium_category">الصور المميزة</string>
     <string name="category_free">الصور المجانية</string>
-    <string name="category_gif">صور GIF</string>
     <string name="category_image_only">الصور فقط</string>
     <string name="no_image_in_favorite">لا يوجد صور تم حفظها إلى الأن</string>
     <string name="network_error_try_later">وقع خطأ في الإتصال حاول لاحقا</string>

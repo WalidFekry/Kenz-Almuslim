@@ -54,7 +54,6 @@ public class HomePresenter extends BasePresenter<HomeView> {
     public static final String FILTER_LATEST = "FILTER_LATEST";
     public static final String FILTER_PREMIUM = "FILTER_PREMIUM";
     public static final String FILTER_FREE = "FILTER_FREE";
-    public static final String FILTER_GIF = "FILTER_GIF";
     public static final String FILTER_IMAGE = "FILTER_IMAGE";
     public static final String TAG = "HomePresenter";
     public ProgressLoader progressLoader;
@@ -316,9 +315,9 @@ public class HomePresenter extends BasePresenter<HomeView> {
         final BottomSheetDialog dialog_desc = new BottomSheetDialog(activity, R.style.SheetDialog);
         dialog_desc.setContentView(view);
         dialog_desc.show();
-        final String[] filter_id = {FILTER_POPULAR, FILTER_LATEST, FILTER_PREMIUM, FILTER_FREE, FILTER_GIF, FILTER_IMAGE};
-        final int[] card_view_id = {R.id.popular_button, R.id.latest_button, R.id.premium_button, R.id.free_button, R.id.gif_button, R.id.image_button};
-        final int[] text_view_id = {R.id.text_popular, R.id.text_latest, R.id.text_premium, R.id.text_free, R.id.text_gif, R.id.text_image};
+        final String[] filter_id = {FILTER_POPULAR, FILTER_LATEST, FILTER_PREMIUM, FILTER_FREE,FILTER_IMAGE};
+        final int[] card_view_id = {R.id.popular_button, R.id.latest_button, R.id.premium_button, R.id.free_button,R.id.image_button};
+        final int[] text_view_id = {R.id.text_popular, R.id.text_latest, R.id.text_premium, R.id.text_free, R.id.text_image};
         for (int i = 0; i < card_view_id.length; i++) {
             CardView cardView = dialog_desc.findViewById(card_view_id[i]);
             final TextView textView = dialog_desc.findViewById(text_view_id[i]);

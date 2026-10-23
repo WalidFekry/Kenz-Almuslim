@@ -16,7 +16,8 @@ android {
     }
     buildTypes {
         release {
-            minifyEnabled false
+            minifyEnabled true
+            shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
@@ -61,7 +62,6 @@ dependencies {
     implementation 'com.github.yalantis:ucrop:2.2.4'
     implementation 'com.github.wasabeef:recyclerview-animators:4.0.1'
     implementation 'com.github.thomper:sweet-alert-dialog:v1.4.0'
-    implementation 'com.github.yalantis:ucrop:2.2.4'
     implementation 'com.sothree.slidinguppanel:library:3.4.0'
     implementation 'io.github.florent37:shapeofview:1.4.7'
     implementation 'com.github.chrisbanes:PhotoView:2.1.4'
@@ -70,7 +70,6 @@ dependencies {
     implementation 'io.github.ParkSangGwon:tedpermission-normal:3.4.2'
     implementation 'com.github.amitshekhariitbhu:PRDownloader:1.0.2'
     implementation platform('com.google.firebase:firebase-bom:35.1.0')
-    implementation 'com.android.support:multidex:1.0.3'
     implementation 'androidx.core:core-splashscreen:1.2.0'
     implementation project(':HihiHoho')
     implementation 'io.reactivex.rxjava2:rxandroid:2.1.1'

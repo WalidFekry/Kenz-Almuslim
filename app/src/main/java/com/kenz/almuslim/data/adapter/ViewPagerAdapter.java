@@ -5,7 +5,7 @@ import android.view.ViewGroup;
 import com.kenz.almuslim.ui.category.CategoriesFragment;
 import com.kenz.almuslim.ui.home.HomeFragment;
 import com.kenz.almuslim.ui.quotes.QuotesFragment;
-import com.kenz.almuslim.ui.search.SearchFragment;
+import com.kenz.almuslim.ui.quotes.saved.SavedQuotesFragment;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -40,7 +40,7 @@ public class ViewPagerAdapter extends FragmentPagerAdapter {
                 break;
 
             case 1:
-                fragment = new SearchFragment();
+                fragment = new SavedQuotesFragment();
                 break;
 
             case 2:

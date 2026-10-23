@@ -105,7 +105,7 @@ public class MainPresenter extends BasePresenter<MainView> {
 
     private void initBottomNavigation() {
         binding.bottomNavigation.addButton("", R.drawable.ic_nav_category);
-        binding.bottomNavigation.addButton("", R.drawable.ic_nav_search);
+        binding.bottomNavigation.addButton("", R.drawable.ic_bookmark_on);
         binding.bottomNavigation.addButton("", R.drawable.ic_quotes);
         binding.bottomNavigation.addButton("", R.drawable.ic_nav_favourtie);
         binding.bottomNavigation.showIconOnly();
@@ -129,7 +129,7 @@ public class MainPresenter extends BasePresenter<MainView> {
                         break;
                     case 1:
                         binding.viewPager.setCurrentItem(1);
-                        binding.toolbarTitle.setText("بحث");
+                        binding.toolbarTitle.setText("الرسائل المحفوظة");
                         break;
                     case 2:
                         binding.viewPager.setCurrentItem(3);

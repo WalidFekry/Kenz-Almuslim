@@ -4,6 +4,9 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import androidx.core.graphics.Insets;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
@@ -43,6 +46,8 @@ public class SavedQuotesActivity extends BaseActivity<SavedQuotesView, SavedQuot
     protected void onStarting() {
         presenter.init(this);
 
+        setupEdgeToEdgeInsets();
+
         recyclerView = findViewById(R.id.recycler_view);
         swipeRefreshLayout = findViewById(R.id.swipe_refresh);
         layoutNoSaved = findViewById(R.id.layout_no_saved);
@@ -57,6 +62,22 @@ public class SavedQuotesActivity extends BaseActivity<SavedQuotesView, SavedQuot
         swipeRefreshLayout.setOnRefreshListener(() -> presenter.loadSavedQuotes());
 
         presenter.loadSavedQuotes();
+    }
+
+    private void setupEdgeToEdgeInsets() {
+        View appBarLayout = findViewById(R.id.appBarLayout);
+        if (appBarLayout != null) {
+            ViewCompat.setOnApplyWindowInsetsListener(appBarLayout, (v, insets) -> {
+                Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
+                v.setPadding(
+                        v.getPaddingLeft(),
+                        systemBars.top,
+                        v.getPaddingRight(),
+                        v.getPaddingBottom()
+                );
+                return insets;
+            });
+        }
     }
 
     @Override

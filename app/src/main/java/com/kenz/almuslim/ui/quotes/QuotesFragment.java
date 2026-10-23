@@ -1,6 +1,5 @@
 package com.kenz.almuslim.ui.quotes;
 
-import android.content.Intent;
 import android.view.View;
 import android.widget.Toast;
 
@@ -12,7 +11,6 @@ import com.kenz.almuslim.R;
 import com.kenz.almuslim.data.base.BaseFragment;
 import com.kenz.almuslim.data.model.ModelQuote;
 import com.kenz.almuslim.data.widgets.ProgressLoader;
-import com.kenz.almuslim.ui.quotes.saved.SavedQuotesActivity;
 
 import java.util.ArrayList;
 
@@ -22,7 +20,6 @@ public class QuotesFragment extends BaseFragment<QuotesView, QuotesPresenter> im
     private SwipeRefreshLayout swipeRefreshLayout;
     private View layoutOfflineEmpty;
     private View btnRetry;
-    private View btnOpenSavedQuotes;
 
     private AdapterQuotes adapterQuotes;
     private ProgressLoader progressLoader;
@@ -49,7 +46,6 @@ public class QuotesFragment extends BaseFragment<QuotesView, QuotesPresenter> im
         swipeRefreshLayout = rootView.findViewById(R.id.swipe_refresh);
         layoutOfflineEmpty = rootView.findViewById(R.id.layout_offline_empty);
         btnRetry = rootView.findViewById(R.id.btn_retry);
-        btnOpenSavedQuotes = rootView.findViewById(R.id.btn_open_saved_quotes);
 
         recyclerView.setLayoutManager(new LinearLayoutManager(requireActivity()));
         adapterQuotes = new AdapterQuotes(requireActivity(), quotesList, false, this);
@@ -59,10 +55,6 @@ public class QuotesFragment extends BaseFragment<QuotesView, QuotesPresenter> im
 
         btnRetry.setOnClickListener(v -> presenter.loadQuotes());
 
-        btnOpenSavedQuotes.setOnClickListener(v -> {
-            Intent intent = new Intent(requireActivity(), SavedQuotesActivity.class);
-            startActivity(intent);
-        });
 
         presenter.loadQuotes();
     }

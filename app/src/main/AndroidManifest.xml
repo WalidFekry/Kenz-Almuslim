@@ -43,7 +43,6 @@
         <activity android:name="com.kenz.almuslim.ui.zoom.ZoomActivity" />
         <activity android:name="com.kenz.almuslim.ui.detail.DetailActivity" />
         <activity android:name="com.kenz.almuslim.ui.bycategory.ByCategoryActivity" />
-        <activity android:name="com.kenz.almuslim.ui.quotes.saved.SavedQuotesActivity" />
         <activity
             android:name="com.kenz.almuslim.ui.splash.SplashActivity"
             android:exported="true">
